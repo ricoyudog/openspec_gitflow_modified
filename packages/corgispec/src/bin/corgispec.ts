@@ -3,6 +3,16 @@ import { readFileSync } from "node:fs";
 import { dirname, resolve } from "node:path";
 import { fileURLToPath } from "node:url";
 import { checkNodeVersion } from "../lib/node-guard.js";
+import { createInstallCommand } from "../commands/install.js";
+import { createValidateCommand } from "../commands/validate.js";
+import { createListCommand } from "../commands/list.js";
+import { createGraphCommand } from "../commands/graph.js";
+import { createStatusCommand } from "../commands/status.js";
+import { createInstructionsCommand } from "../commands/instructions.js";
+import { createProposeCommand } from "../commands/propose.js";
+import { createApplyCommand } from "../commands/apply.js";
+import { createReviewCommand } from "../commands/review.js";
+import { createArchiveCommand } from "../commands/archive.js";
 
 // Guard: exit early if Node version is too low
 checkNodeVersion();
@@ -27,18 +37,22 @@ if (process.env["NO_COLOR"] !== undefined) {
   process.env["FORCE_COLOR"] = "0";
 }
 
-// Commands will be registered here as they are implemented
-// program.command("init")...
-// program.command("install")...
-// program.command("validate")...
-// program.command("list")...
-// program.command("graph")...
-// program.command("doctor")...
-// program.command("propose")...
-// program.command("apply")...
-// program.command("review")...
-// program.command("archive")...
-// program.command("status")...
-// program.command("instructions")...
+// Skill management commands
+program.addCommand(createInstallCommand());
+program.addCommand(createValidateCommand());
+program.addCommand(createListCommand());
+program.addCommand(createGraphCommand());
+
+// Workflow commands
+program.addCommand(createStatusCommand());
+program.addCommand(createInstructionsCommand());
+program.addCommand(createProposeCommand());
+program.addCommand(createApplyCommand());
+program.addCommand(createReviewCommand());
+program.addCommand(createArchiveCommand());
+
+// Init & Doctor commands (to be implemented in Group 5)
+// program.addCommand(createInitCommand());
+// program.addCommand(createDoctorCommand());
 
 program.parse();

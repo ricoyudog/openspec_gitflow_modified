@@ -21,25 +21,25 @@
 
 ## 3. Skill Management Commands (install, validate, list, graph)
 
-- [ ] 3.1 Create `src/lib/skills.ts` — discover skills from a directory, parse `skill.meta.json`, validate against schema
-- [ ] 3.2 Implement `src/commands/install.ts` — copy bundled skills to user-level dirs (`~/.claude/skills/`, `~/.config/opencode/skill/`), support `--platform`, `--dry-run`
-- [ ] 3.3 Implement `src/commands/validate.ts` — validate all skills (meta schema, SKILL.md exists, slug match, tier constraints), support `--path`
-- [ ] 3.4 Implement `src/commands/list.ts` — list skills with `--tier`, `--platform`, `--json` filters; default lists changes
-- [ ] 3.5 Implement `src/commands/graph.ts` — output dependency graph in mermaid (default) or dot format, support `--tier` filter
-- [ ] 3.6 Write integration tests for install (mock filesystem), validate, list, and graph commands
+- [x] 3.1 Create `src/lib/skills.ts` — discover skills from a directory, parse `skill.meta.json`, validate against schema
+- [x] 3.2 Implement `src/commands/install.ts` — copy bundled skills to user-level dirs (`~/.claude/skills/`, `~/.config/opencode/skill/`), support `--platform`, `--dry-run`
+- [x] 3.3 Implement `src/commands/validate.ts` — validate all skills (meta schema, SKILL.md exists, slug match, tier constraints), support `--path`
+- [x] 3.4 Implement `src/commands/list.ts` — list skills with `--tier`, `--platform`, `--json` filters; default lists changes
+- [x] 3.5 Implement `src/commands/graph.ts` — output dependency graph in mermaid (default) or dot format, support `--tier` filter
+- [x] 3.6 Write integration tests for install (mock filesystem), validate, list, and graph commands
 
 ## 4. Workflow Instruction Commands (propose, apply, review, archive, status, instructions)
 
-- [ ] 4.1 Create `src/lib/changes.ts` — discover changes in `openspec/changes/`, read artifact status, determine pipeline state
-- [ ] 4.2 Create `src/lib/instructions.ts` — template resolver that reads schema artifact definitions, resolves templates, injects context/rules, outputs JSON
-- [ ] 4.3 Implement `src/commands/status.ts` — display artifact completion state, support `--json`, auto-select single change
-- [ ] 4.4 Implement `src/commands/instructions.ts` — output enriched artifact instructions as JSON, check blocked state
-- [ ] 4.5 Implement `src/commands/propose.ts` — create change directory, output proposal instructions
-- [ ] 4.6 Implement `src/commands/apply.ts` — determine next task group, output apply instructions
-- [ ] 4.7 Implement `src/commands/review.ts` — output review checklist instructions
-- [ ] 4.8 Implement `src/commands/archive.ts` — check completeness, output archive instructions
-- [ ] 4.9 Write unit tests for change discovery and instruction resolution
-- [ ] 4.10 Write integration tests for all workflow commands (propose, apply, review, archive, status)
+- [x] 4.1 Create `src/lib/changes.ts` — discover changes in `openspec/changes/`, read artifact status, determine pipeline state
+- [x] 4.2 Create `src/lib/instructions.ts` — template resolver that reads schema artifact definitions, resolves templates, injects context/rules, outputs JSON
+- [x] 4.3 Implement `src/commands/status.ts` — display artifact completion state, support `--json`, auto-select single change
+- [x] 4.4 Implement `src/commands/instructions.ts` — output enriched artifact instructions as JSON, check blocked state
+- [x] 4.5 Implement `src/commands/propose.ts` — create change directory, output proposal instructions
+- [x] 4.6 Implement `src/commands/apply.ts` — determine next task group, output apply instructions
+- [x] 4.7 Implement `src/commands/review.ts` — output review checklist instructions
+- [x] 4.8 Implement `src/commands/archive.ts` — check completeness, output archive instructions
+- [x] 4.9 Write unit tests for change discovery and instruction resolution
+- [x] 4.10 Write integration tests for all workflow commands (propose, apply, review, archive, status)
 
 ## 5. Init & Doctor Commands
 
