@@ -13,6 +13,8 @@ import { createProposeCommand } from "../commands/propose.js";
 import { createApplyCommand } from "../commands/apply.js";
 import { createReviewCommand } from "../commands/review.js";
 import { createArchiveCommand } from "../commands/archive.js";
+import { createInitCommand } from "../commands/init.js";
+import { createDoctorCommand } from "../commands/doctor.js";
 
 // Guard: exit early if Node version is too low
 checkNodeVersion();
@@ -51,8 +53,8 @@ program.addCommand(createApplyCommand());
 program.addCommand(createReviewCommand());
 program.addCommand(createArchiveCommand());
 
-// Init & Doctor commands (to be implemented in Group 5)
-// program.addCommand(createInitCommand());
-// program.addCommand(createDoctorCommand());
+// Init & Doctor commands
+program.addCommand(createInitCommand());
+program.addCommand(createDoctorCommand());
 
 program.parse();

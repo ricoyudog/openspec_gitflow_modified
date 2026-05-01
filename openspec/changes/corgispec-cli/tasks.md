@@ -43,11 +43,11 @@
 
 ## 5. Init & Doctor Commands
 
-- [ ] 5.1 Implement `src/commands/init.ts` — scaffold openspec directory structure, support `--schema`, `--platform`, skip if exists
-- [ ] 5.2 Create init templates (config.yaml with comments, schema directory structure)
-- [ ] 5.3 Implement `src/commands/doctor.ts` — run all checks (Node version, skill dirs, config, platforms, schemas), report pass/fail with suggestions
-- [ ] 5.4 Write integration tests for init (fresh dir, existing dir, with flags)
-- [ ] 5.5 Write integration tests for doctor (mock environment states)
+- [x] 5.1 Implement `src/commands/init.ts` — scaffold openspec directory structure, support `--schema`, `--platform`, skip if exists
+- [x] 5.2 Create init templates (config.yaml with comments, schema directory structure)
+- [x] 5.3 Implement `src/commands/doctor.ts` — run all checks (Node version, skill dirs, config, platforms, schemas), report pass/fail with suggestions
+- [x] 5.4 Write integration tests for init (fresh dir, existing dir, with flags)
+- [x] 5.5 Write integration tests for doctor (mock environment states)
 
 ## 6. Asset Bundling & Publish Readiness
 
