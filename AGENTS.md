@@ -17,10 +17,40 @@ There is no application code to build or deploy. The "product" is the skill file
 | `openspec/schemas/` | Schema definitions (gitlab-tracked, github-tracked) |
 | `openspec/config.yaml` | Project-level config (schema, isolation, context) |
 | `schemas/skill-meta.schema.json` | JSON Schema for validating `skill.meta.json` |
-| `tools/ds-skills/` | Node CLI for skill validation + dependency graphing |
-| `install-skills.sh` | Installs user-level skills to `~/.claude/skills/` and `~/.config/opencode/skill/` |
+| `packages/corgispec/` | **corgispec CLI** — unified CLI replacing ds-skills + install-skills.sh |
+| `tools/ds-skills/` | Node CLI for skill validation + dependency graphing (legacy, use corgispec instead) |
+| `install-skills.sh` | Installs user-level skills (legacy, use `corgispec install` instead) |
 
 ## Commands
+
+### corgispec CLI (recommended)
+
+```bash
+cd packages/corgispec && npm install && npm run build
+```
+
+```bash
+# From packages/corgispec/:
+node dist/corgispec.js init <path>           # scaffold openspec/ in a project
+node dist/corgispec.js doctor --path <dir>   # diagnose environment
+node dist/corgispec.js validate --path ../..  # validate all skills
+node dist/corgispec.js list --path ../..      # list all skills
+node dist/corgispec.js graph --path ../..     # dependency graph (mermaid)
+node dist/corgispec.js install               # install skills to user dirs
+node dist/corgispec.js status                # show change artifact status
+node dist/corgispec.js propose <name>        # create a new change
+node dist/corgispec.js apply                 # output apply instructions
+node dist/corgispec.js review                # output review checklist
+node dist/corgispec.js archive               # output archive instructions
+```
+
+### Run corgispec tests
+
+```bash
+cd packages/corgispec && npm test
+```
+
+Uses Vitest. Requires Node >= 18.
 
 ### Validate all skills (the closest thing to a build/lint step)
 
@@ -65,7 +95,7 @@ node bin/ds-skills.js graph --path ../..   # dependency graph
 
 ## No CI
 
-There are no CI workflows. Validation is manual via `ds-skills validate`.
+There are no CI workflows. Validation is manual via `ds-skills validate` or `corgispec validate`.
 
 ## Config
 

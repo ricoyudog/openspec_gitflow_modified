@@ -51,9 +51,9 @@
 
 ## 6. Asset Bundling & Publish Readiness
 
-- [ ] 6.1 Create `scripts/bundle-assets.ts` — copies `.opencode/skills/openspec-*` and `schemas/` into `packages/corgispec/assets/`
-- [ ] 6.2 Add `.gitignore` entry for `packages/corgispec/assets/` (generated at build time)
-- [ ] 6.3 Validate that bundled skills match source (checksum or content compare)
-- [ ] 6.4 Add `CHANGELOG.md` with initial entry
-- [ ] 6.5 Test full publish flow: `npm pack`, extract, `npx corgispec --version`, `npx corgispec doctor`
-- [ ] 6.6 Update root `AGENTS.md` and `README.md` with new install/usage instructions referencing `corgispec`
+- [x] 6.1 Create `scripts/bundle-assets.ts` — copies `.opencode/skills/openspec-*` and `schemas/` into `packages/corgispec/assets/`
+- [x] 6.2 Add `.gitignore` entry for `packages/corgispec/assets/` (generated at build time)
+- [x] 6.3 Validate that bundled skills match source (checksum or content compare)
+- [x] 6.4 Add `CHANGELOG.md` with initial entry
+- [x] 6.5 Test full publish flow: `npm pack`, extract, `npx corgispec --version`, `npx corgispec doctor`
+- [x] 6.6 Update root `AGENTS.md` and `README.md` with new install/usage instructions referencing `corgispec`
