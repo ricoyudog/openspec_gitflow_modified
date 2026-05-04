@@ -76,16 +76,44 @@ Quality checks inform the decision. They do not decide the outcome.
 
 Only the user approves or rejects. Do not change labels, close issues, update parent progress, or append repair tasks in this step.
 
+**0. Anti-Rationalization Guard (DO THIS FIRST)**
+
+Before executing any quality checks, read and confirm these excuse-vs-rebuttal pairs. If any of these excuses is detected influencing your review judgment, STOP and recalibrate:
+
+| Excuse (Agent might say) | Rebuttal (Built into skill) |
+|--------------------------|---------------------------|
+| "能跑就夠了" (It runs, that's enough) | Code that runs but is unreadable/unsafe/architecturally wrong creates compound debt. Review is the quality gate. |
+| "只是小改動不用審" (Small change, no need to review) | 60% of major incidents in history come from "small changes" whose review was skipped. |
+| "我寫的我知道它是對的" (I wrote it, I know it's right) | Authors have blind spots about their own assumptions. Every piece of code needs another pair of eyes. |
+| "AI 生成的應該沒問題" (AI-generated code should be fine) | AI code needs MORE scrutiny, not less. It is confident and plausible but can be wrong. |
+| "測試有過就好" (Tests pass = good enough) | Tests are necessary but insufficient. They don't catch architecture issues, security holes, or readability problems. |
+| "以後再整理" (I'll clean it up later) | "Later" never comes. Review is the quality gate — demand cleanup now. |
+| "Review 太花時間" (Review takes too much time) | The cost of fixing unreviewed bugs is 10x the cost of catching them in review. |
+
+**Severity Classification**
+
+Tag EVERY finding with a severity level:
+
+| Level | Marker | Definition | Example |
+|-------|--------|------------|---------|
+| **Critical** | 🔴 | Must fix to approve | Security holes, data loss risk, core feature broken |
+| **Important** | 🟡 | Should fix or discuss before approve | Missing tests, poor error handling, spec non-compliance |
+| **Suggestion** | 🔵 | Improvement, not required | Better naming, optional refactor, cleaner abstraction |
+| **Nit** | ⚪ | Style preference, ignorable | Whitespace, formatting, personal taste |
+| **FYI** | ℹ️ | Informational, no action needed | Future considerations, context notes |
+
+When in doubt between two levels, choose the HIGHER severity.
+
 **a. Code Quality Review**
 - Read all files produced by this group (from the child issue Rich Summary's file table)
 - Check: code structure, obvious bugs or anti-patterns, naming and style consistency
-- Produce: a short comment per file with ✅ / ⚠️ / ❌ status
+- Produce: a short comment per file with severity-tagged status (🔴/🟡/🔵/⚪/ℹ️)
 
 **b. Spec Verification**
 - Read the corresponding `specs/<capability>/spec.md` from the change directory
 - If no specs exist: note "No spec found for this group", skip this check
 - Check each Requirement against the actual implementation
-- Produce: coverage status per requirement with ✅ / ⚠️ / ❌
+- Produce: coverage status per requirement with severity tag for any gaps
 
 **c. Functional Verification**
 
@@ -106,27 +134,77 @@ Detect the project type and gather evidence accordingly. All detection is best-e
   - If not found: skip
 - **Fallback**: if none of the above apply, try to import or execute the core function to verify basic functionality
 
-**d. Assemble Review Report**
+**d. Architecture Check**
+
+Review the implementation against system design principles:
+
+- Does the change follow existing design patterns? If a new pattern is introduced, is it intentional and documented?
+- Are module boundaries clean? No circular dependencies?
+- Is the abstraction level appropriate? (Not too high, not too low — testable and composable)
+- Are newly introduced dependencies necessary and justified?
+
+Produce: status per check item with severity tag for any violations.
+
+**e. Performance Check**
+
+Identify common performance anti-patterns in the implementation:
+
+- Data access: Any N+1 query patterns? (Check for queries inside loops)
+- API endpoints: Any list endpoints missing pagination?
+- Async/Sync: Any operations that should be asynchronous but are synchronous?
+- Frontend: Any unnecessary re-renders? (React: missing useMemo/useCallback; check render-triggering state changes)
+- Memory/CPU: Any unbounded loops or potential memory leaks? (Missing cleanup in useEffect, unclosed streams)
+
+Produce: status per check item with severity tag for any findings.
+
+> **Core principle**: Measure before optimizing. Flag patterns, do not prescribe specific optimizations without benchmark data.
+
+For deeper checks, the review skill also provides `references/security-checklist.md` and `references/performance-checklist.md` if more scrutiny is warranted.
+
+**f. Assemble Review Report**
 
 Format for terminal display and GitHub issue:
 ```markdown
 ## Review Report: Group N, {group name}
 
+### Anti-Rationalization Check
+Confirmed no excuses are influencing review judgment:
+- [x] "It runs" — Review covers readability, architecture, security, performance
+- [x] "Small change" — All changes reviewed regardless of size
+
 ### Code Quality
-| File | Comment | Status |
-|------|---------|--------|
-| path/file.py | Clean structure, consistent naming | ✅ |
+| File | Finding | Severity | Comment |
+|------|---------|----------|---------|
+| path/file.py | Clean structure, consistent naming | ℹ️ | — |
+
+### Architecture
+| Check | Status | Note |
+|-------|--------|------|
+| Follows existing patterns | ✅ | — |
+| Module boundaries clean | ✅ | — |
+| No circular dependencies | ✅ | — |
+| Abstraction level appropriate | ✅ | — |
+| New deps are necessary | ✅ | — |
+
+### Performance
+| Check | Status | Note |
+|-------|--------|------|
+| No N+1 queries | ✅ | — |
+| Pagination present | ✅ | — |
+| No blocking sync ops | ✅ | — |
+| No unnecessary re-renders | ✅ | — |
+| No unbounded loops | ✅ | — |
 
 ### Spec Coverage
-| Requirement | Status | Notes |
-|-------------|--------|-------|
-| REQ-1: Basic functionality | ✅ | Implemented and tested |
-| REQ-2: Edge cases | ⚠️ | Implemented but no test |
+| Requirement | Status | Severity (if issue) | Notes |
+|-------------|--------|---------------------|-------|
+| REQ-1: Basic functionality | ✅ | — | Implemented and tested |
+| REQ-2: Edge cases | ⚠️ | 🔴 Critical | Missing — no error path for null input |
 
 ### Functional Verification
-| Item | Result | Notes |
-|------|--------|-------|
-| add(1,1) returns 2 | ✅ Pass | See test output below |
+| Item | Result | Severity | Notes |
+|------|--------|----------|-------|
+| add(1,1) returns 2 | ✅ Pass | — | See test output below |
 
 ### Tests
 {pytest output or "No test infrastructure detected"}
@@ -135,10 +213,10 @@ Format for terminal display and GitHub issue:
 {Playwright screenshots or "No UI detected"}
 
 ### Summary
-✅ N passed | ⚠️ N need attention | ❌ N not met
+🔴 N Critical | 🟡 N Important | 🔵 N Suggestions | ⚪ N Nits | ℹ️ N FYI
 ```
 
-**e. Post Review Report to GitHub**
+**g. Post Review Report to GitHub**
 ```bash
 gh issue comment <child_number> --body "$REVIEW_REPORT"
 ```

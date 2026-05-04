@@ -1,0 +1,9 @@
+TASK 2: quality-checks.md upgraded successfully
+Anti-rationalization: 7 rows in table + 2 in report format = 9 total matches ✓
+5 axes: 5 ✓
+Severity markers: 8 lines (definitions + examples + report format) ✓
+Architecture: 4 items ✓ (patterns, boundaries, abstraction, new deps)
+Performance: 5 items + principle ✓
+Tier 3 ref: security-checklist.md + performance-checklist.md referenced ✓
+Summary: 🔴 N Critical | 🟡 N Important | 🔵 N Suggestions | ⚪ N Nits | ℹ️ N FYI ✓
+Sync: opencode↔claude IDENTICAL | opencode↔codex IDENTICAL ✓

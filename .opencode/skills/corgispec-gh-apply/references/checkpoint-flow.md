@@ -75,7 +75,7 @@ If all groups are done → state is `all_done`, suggest review or archive.
 - path/to/file.py — description
 - path/to/other.ts — description
 
-Run `/corgi-review` to review this group, or `/corgi-apply` to continue.
+Run `/corgi-verify` to verify this group, then `/corgi-review` to review. Or `/corgi-apply` to continue.
 ```
 
 ## Closeout Retry Rule
