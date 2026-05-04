@@ -21,19 +21,19 @@ OpenSpec provides the core CLI (`openspec init`, artifact pipeline, change lifec
 
 ```mermaid
 flowchart LR
-    A["/opsx-propose"] --> B["proposal.md\nspecs/\ndesign.md\ntasks.md"]
+    A["/corgi-propose"] --> B["proposal.md\nspecs/\ndesign.md\ntasks.md"]
     B --> C["Issues\n(parent + children)"]
-    C --> D["/opsx-apply"]
+    C --> D["/corgi-apply"]
     D --> E{"Group done?"}
-    E -->|Yes| F["/opsx-review"]
+    E -->|Yes| F["/corgi-review"]
     F --> G{"Approved?"}
     G -->|Yes, more groups| D
     G -->|Rejected| H["Fix tasks added"]
     H --> D
-    G -->|All done| I["/opsx-archive"]
+    G -->|All done| I["/corgi-archive"]
 ```
 
-This diagram shows the command handoff points only. Inside that flow, `/opsx-propose` finishes by closing out into a tracked handoff state, `/opsx-apply` runs one Task Group through implementation and closeout before it stops, and `/opsx-review` gathers evidence before it asks for an explicit decision and applies the transition the user approved.
+This diagram shows the command handoff points only. Inside that flow, `/corgi-propose` finishes by closing out into a tracked handoff state, `/corgi-apply` runs one Task Group through implementation and closeout before it stops, and `/corgi-review` gathers evidence before it asks for an explicit decision and applies the transition the user approved.
 
 ## Quick Start
 
@@ -68,7 +68,7 @@ That dispatcher tells the agent to run `corgispec bootstrap --target /path/to/pr
 
 ### 3. Review the bootstrap report
 
-Bootstrap writes `openspec/.opsx-install-report.md` in the target project and the agent should summarize whether it succeeded, stopped, or failed.
+Bootstrap writes `openspec/.corgi-install-report.md` in the target project and the agent should summarize whether it succeeded, stopped, or failed.
 
 ### 4. Start using the workflow in the target project
 
@@ -76,18 +76,18 @@ After bootstrap finishes, open the **target project** in OpenCode or Claude Code
 
 ```text
 # OpenCode
-/opsx-propose Add user authentication with JWT and refresh tokens
+/corgi-propose Add user authentication with JWT and refresh tokens
 
 # Claude Code
-/opsx:propose Add user authentication with JWT and refresh tokens
+/corgi:propose Add user authentication with JWT and refresh tokens
 ```
 
-This generates all planning artifacts, writes the local tracked handoff state, and mirrors it to parent/child issues. After that, `/opsx-apply` runs one Task Group and its closeout, then stops for `/opsx-review`, which gathers evidence, asks for an explicit decision, and applies the transition the user approved. Then use the assistant-specific command form:
+This generates all planning artifacts, writes the local tracked handoff state, and mirrors it to parent/child issues. After that, `/corgi-apply` runs one Task Group and its closeout, then stops for `/corgi-review`, which gathers evidence, asks for an explicit decision, and applies the transition the user approved. Then use the assistant-specific command form:
 
-- OpenCode: `/opsx-apply`, `/opsx-review`, `/opsx-archive`, `/opsx-explore`
-- Claude Code: `/opsx:apply`, `/opsx:review`, `/opsx:archive`, `/opsx:explore`
+- OpenCode: `/corgi-apply`, `/corgi-review`, `/corgi-archive`, `/corgi-explore`
+- Claude Code: `/corgi:apply`, `/corgi:review`, `/corgi:archive`, `/corgi:explore`
 
-> **Platform detection**: All `/opsx-*` commands auto-detect GitLab or GitHub from your `config.yaml`. Same commands, either platform.
+> **Platform detection**: All `/corgi-*` commands auto-detect GitLab or GitHub from your `config.yaml`. Same commands, either platform.
 
 ## Install / Update / Verify Workflow
 
@@ -112,10 +112,10 @@ Examples:
 
 ```text
 # OpenCode
-/opsx-install --mode fresh --path /path/to/your-project
+/corgi-install --mode fresh --path /path/to/your-project
 
 # Claude Code
-/opsx:install --mode fresh --path /path/to/your-project
+/corgi:install --mode fresh --path /path/to/your-project
 ```
 
 If you omit flags, the installer prompts for the target path, schema, and whether to enable worktree isolation.
@@ -130,24 +130,24 @@ The installer assumes the required user-level skills are already present. If boo
 
 The installer copies only the project-local managed fileset into the target project:
 
-- `.opencode/commands/opsx-*.md`
-- `.claude/commands/opsx/*.md`
+- `.opencode/commands/corgi-*.md`
+- `.claude/commands/corgi/*.md`
 - `openspec/schemas/{selected-schema}/**`
 
 It then patches only installer-owned keys in `openspec/config.yaml` and records the install state in:
 
-- `openspec/.opsx-install.json`
-- `openspec/.opsx-install-report.md`
-- `openspec/.opsx-backups/<timestamp>/` when a legacy install backup is needed
+- `openspec/.corgi-install.json`
+- `openspec/.corgi-install-report.md`
+- `openspec/.corgi-backups/<timestamp>/` when a legacy install backup is needed
 
 ### 4. Review the verification report
 
-Every install, update, and verify-only run writes `openspec/.opsx-install-report.md` in the target project.
+Every install, update, and verify-only run writes `openspec/.corgi-install-report.md` in the target project.
 
 Review it before continuing. The report records:
 
 - prerequisite checks (`openspec`, `gh`, `glab`)
-- user-level skill checks (`~/.claude/skills/openspec-*`, `~/.config/opencode/skill/openspec-*`)
+- user-level skill checks (`~/.claude/skills/corgispec-*`, `~/.config/opencode/skill/corgispec-*`)
 - schema and `openspec/config.yaml` checks
 - managed fileset sync results
 - PASS/FAIL status
@@ -194,20 +194,20 @@ The installer supports four explicit modes.
 
 ### Fresh install
 
-Use this when the target project has no managed files and no `openspec/.opsx-install.json` manifest yet.
+Use this when the target project has no managed files and no `openspec/.corgi-install.json` manifest yet.
 
-- requires user-level `openspec-*` skills to already exist under `~/.claude/skills/` and `~/.config/opencode/skill/`
+- requires user-level `corgispec-*` skills to already exist under `~/.claude/skills/` and `~/.config/opencode/skill/`
 - copies the managed fileset into project-local `.opencode/`, `.claude/`, and `openspec/schemas/`
 - patches `openspec/config.yaml` minimally
 - asks whether to enable worktree isolation
-- writes `openspec/.opsx-install.json` and `openspec/.opsx-install-report.md`
+- writes `openspec/.corgi-install.json` and `openspec/.corgi-install-report.md`
 
 ### Managed update
 
-Use this when the target project already has `openspec/.opsx-install.json`.
+Use this when the target project already has `openspec/.corgi-install.json`.
 
 ```text
-/opsx-install --mode update --path /path/to/your-project
+/corgi-install --mode update --path /path/to/your-project
 ```
 
 The installer compares the current managed files against the manifest hashes before updating.
@@ -220,7 +220,7 @@ Instead, it:
 
 - prints a diff
 - stops the update
-- writes FAIL status to `openspec/.opsx-install-report.md`
+- writes FAIL status to `openspec/.corgi-install-report.md`
 - asks you to resolve the local modifications manually before retrying
 
 ### Verify-only
@@ -228,38 +228,38 @@ Instead, it:
 Use verify-only when you want a health check without any file mutations:
 
 ```text
-/opsx-install --mode verify --path /path/to/your-project
+/corgi-install --mode verify --path /path/to/your-project
 ```
 
-Verify-only checks prerequisites, user-level skill availability, managed fileset integrity, schema presence, and `openspec/config.yaml`, then writes `openspec/.opsx-install-report.md`.
+Verify-only checks prerequisites, user-level skill availability, managed fileset integrity, schema presence, and `openspec/config.yaml`, then writes `openspec/.corgi-install-report.md`.
 
 ### Legacy install migration
 
-If managed files already exist but the target project has no `openspec/.opsx-install.json` manifest, the installer classifies the project as a **legacy install**.
+If managed files already exist but the target project has no `openspec/.corgi-install.json` manifest, the installer classifies the project as a **legacy install**.
 
 In that case it:
 
 - reports the legacy classification clearly
-- creates `openspec/.opsx-backups/<timestamp>/`
+- creates `openspec/.corgi-backups/<timestamp>/`
 - asks for explicit approval before migration
 - aborts without overwriting if you decline
 
-For the full agent-executable validation scenarios covering fresh install, managed update, local modifications, verify-only, legacy install, and worktree prompting, see `.sisyphus/plans/opsx-install-smoke-matrix.md`.
+For the full agent-executable validation scenarios covering fresh install, managed update, local modifications, verify-only, legacy install, and worktree prompting, see `.sisyphus/plans/corgi-install-smoke-matrix.md`.
 
 ## Commands
 
 | Command | What it does |
 |---------|-------------|
-| OpenCode `/opsx-install` / Claude `/opsx:install` | Legacy/manual-only installer path for project-local asset install, update, or verify |
-| OpenCode `/opsx-propose` / Claude `/opsx:propose` | Generate planning artifacts, then close out into tracked handoff state |
-| OpenCode `/opsx-apply` / Claude `/opsx:apply` | Execute one Task Group, sync closeout state, then stop for review |
-| OpenCode `/opsx-review` / Claude `/opsx:review` | Gather evidence, ask for an explicit decision, then apply the transition the user approved |
-| OpenCode `/opsx-archive` / Claude `/opsx:archive` | Close all issues, sync delta specs, extract long-term knowledge, clean up |
-| OpenCode `/opsx-explore` / Claude `/opsx:explore` | Thinking partner — explore ideas, check issue feedback, clarify requirements |
-| OpenCode `/opsx-memory-init` / Claude `/opsx:memory-init` | Initialize the 3-layer memory structure (`memory/` + `wiki/`) for cross-session continuity |
-| OpenCode `/opsx-migrate` / Claude `/opsx:migrate` | Import existing knowledge (docs, archived changes, vault pages) into memory/wiki |
-| OpenCode `/opsx-lint` / Claude `/opsx:lint` | Validate memory health — freshness, size caps, broken links, extraction completeness |
-| OpenCode `/opsx-ask` / Claude `/opsx:ask` | Answer questions from the vault using budget-aware retrieval |
+| OpenCode `/corgi-install` / Claude `/corgi:install` | Legacy/manual-only installer path for project-local asset install, update, or verify |
+| OpenCode `/corgi-propose` / Claude `/corgi:propose` | Generate planning artifacts, then close out into tracked handoff state |
+| OpenCode `/corgi-apply` / Claude `/corgi:apply` | Execute one Task Group, sync closeout state, then stop for review |
+| OpenCode `/corgi-review` / Claude `/corgi:review` | Gather evidence, ask for an explicit decision, then apply the transition the user approved |
+| OpenCode `/corgi-archive` / Claude `/corgi:archive` | Close all issues, sync delta specs, extract long-term knowledge, clean up |
+| OpenCode `/corgi-explore` / Claude `/corgi:explore` | Thinking partner — explore ideas, check issue feedback, clarify requirements |
+| OpenCode `/corgi-memory-init` / Claude `/corgi:memory-init` | Initialize the 3-layer memory structure (`memory/` + `wiki/`) for cross-session continuity |
+| OpenCode `/corgi-migrate` / Claude `/corgi:migrate` | Import existing knowledge (docs, archived changes, vault pages) into memory/wiki |
+| OpenCode `/corgi-lint` / Claude `/corgi:lint` | Validate memory health — freshness, size caps, broken links, extraction completeness |
+| OpenCode `/corgi-ask` / Claude `/corgi:ask` | Answer questions from the vault using budget-aware retrieval |
 
 ## Configuration
 
@@ -276,7 +276,7 @@ isolation:
   branch_prefix: feat/  # default: feat/
 ```
 
-When enabled, `/opsx-propose` (OpenCode) or `/opsx:propose` (Claude Code) creates a worktree automatically. All subsequent commands (`apply`, `review`, `archive`) operate inside it. On archive, the worktree is cleaned up but the branch is preserved for you to merge.
+When enabled, `/corgi-propose` (OpenCode) or `/corgi:propose` (Claude Code) creates a worktree automatically. All subsequent commands (`apply`, `review`, `archive`) operate inside it. On archive, the worktree is cleaned up but the branch is preserved for you to merge.
 
 ## Cross-Session Memory
 
@@ -303,9 +303,9 @@ flowchart LR
 | Scenario | Command |
 |----------|---------|
 | New project bootstrap | Paste the Quick Start prompt into your agent — it runs `corgispec bootstrap` |
-| Add memory to existing project | `/opsx-memory-init` |
-| Migrate existing KB into memory | `/opsx-migrate` |
-| Health check | `/opsx-lint` |
+| Add memory to existing project | `/corgi-memory-init` |
+| Migrate existing KB into memory | `/corgi-migrate` |
+| Health check | `/corgi-lint` |
 
 **[Full documentation: Architecture, Lifecycle, Migration, Obsidian →](docs/cross-session-memory.md)**
 
@@ -439,20 +439,20 @@ openspec/
 └── changes/                        # Active change directories
 
 .opencode/
-├── skills/openspec-*/              # Source-of-truth skill definitions
+├── skills/corgispec-*/              # Source-of-truth skill definitions
 │   ├── SKILL.md                    # AI-readable instructions
 │   ├── skill.meta.json             # Machine-readable metadata (tier, deps, platform)
 │   └── templates/                  # Template files (e.g., memory-init scaffolds)
-└── commands/opsx-*.md              # Slash command dispatch
+└── commands/corgi-*.md              # Slash command dispatch
 
 .claude/
-├── skills/openspec-*/              # Claude skill mirrors
+├── skills/corgispec-*/              # Claude skill mirrors
 │   ├── SKILL.md
 │   └── skill.meta.json
-└── commands/opsx/                  # Claude slash command dispatch
+└── commands/corgi/                  # Claude slash command dispatch
 
 .codex/
-└── skills/openspec-*/              # Codex skill mirrors
+└── skills/corgispec-*/              # Codex skill mirrors
     ├── SKILL.md
     └── skill.meta.json
 ```
@@ -491,7 +491,7 @@ node bin/ds-skills.js graph --path ../..              # Mermaid format
 node bin/ds-skills.js graph --path ../.. --format dot  # Graphviz format
 
 # Show dependency tree for a specific skill
-node bin/ds-skills.js check-deps --path ../.. opsx-propose
+node bin/ds-skills.js check-deps --path ../.. corgi-propose
 ```
 
 ## Docs
@@ -499,7 +499,7 @@ node bin/ds-skills.js check-deps --path ../.. opsx-propose
 | Article | Language | Description |
 |---------|----------|-------------|
 | [Cross-Session Memory](docs/cross-session-memory.md) | EN / [中文](docs/cross-session-memory.zh-TW.md) | 3-layer memory architecture, lifecycle integration, migration guide |
-| [OpenSpec 落地 GitHub](docs/superpowers/articles/2026-04-28-openspec-github-workflow-zhihu.md) | 中文 | How we connected Spec, Issue, Review and Git workflow into a single pipeline — written for Zhihu |
+| [OpenSpec 落地 GitHub](docs/superpowers/articles/2026-04-28-corgispec-github-workflow-zhihu.md) | 中文 | How we connected Spec, Issue, Review and Git workflow into a single pipeline — written for Zhihu |
 
 ## Contributing
 

@@ -4,18 +4,18 @@
 The system SHALL extract reusable patterns from a completed change's history and write them to `wiki/patterns/<pattern-name>.md` with structured metadata.
 
 #### Scenario: Pattern identified during archive
-- **WHEN** `openspec-memory-extract` runs for a completed change that introduced a reusable approach (e.g., "retry with backoff for API calls")
+- **WHEN** `corgispec-memory-extract` runs for a completed change that introduced a reusable approach (e.g., "retry with backoff for API calls")
 - **THEN** system creates `wiki/patterns/<pattern-name>.md` with sections: Context, Pattern, When to Use, Example, and a source link to the originating change
 
 #### Scenario: No patterns identified
-- **WHEN** `openspec-memory-extract` runs for a change that was purely mechanical (e.g., dependency version bump)
+- **WHEN** `corgispec-memory-extract` runs for a change that was purely mechanical (e.g., dependency version bump)
 - **THEN** system skips pattern creation and reports "No reusable patterns identified"
 
 ### Requirement: Session summary extraction
 The system SHALL create a session summary for the completed change at `wiki/sessions/<change-name>.md` capturing what was done, key decisions, and lessons learned.
 
 #### Scenario: Summary created
-- **WHEN** `openspec-memory-extract` runs for change `add-user-auth`
+- **WHEN** `corgispec-memory-extract` runs for change `add-user-auth`
 - **THEN** system creates `wiki/sessions/add-user-auth.md` with sections: Overview, Timeline (from session-bridge history), Key Decisions, Pitfalls Encountered, and Outcome
 
 #### Scenario: Summary already exists
@@ -52,8 +52,8 @@ The system SHALL add links to newly created wiki pages (patterns, sessions) in `
 - **THEN** system trims oldest completed-change entries from the Sessions section before adding new ones
 
 ### Requirement: Archive integration
-The system SHALL be invoked by `openspec-archive` before the change is closed, as the final knowledge extraction step.
+The system SHALL be invoked by `corgispec-archive` before the change is closed, as the final knowledge extraction step.
 
 #### Scenario: Archive calls extract
-- **WHEN** user runs `openspec-archive` for a completed change
-- **THEN** system invokes `openspec-memory-extract` before closing issues and merging delta specs
+- **WHEN** user runs `corgispec-archive` for a completed change
+- **THEN** system invokes `corgispec-memory-extract` before closing issues and merging delta specs

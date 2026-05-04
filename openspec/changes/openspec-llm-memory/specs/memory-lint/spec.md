@@ -4,7 +4,7 @@
 The system SHALL perform 11 defined health checks against the memory and wiki directories, producing a structured report with severity levels (error, warning, info).
 
 #### Scenario: Full lint pass on healthy project
-- **WHEN** user runs `openspec-lint` on a project where all memory files are fresh, within size caps, and have valid wikilinks
+- **WHEN** user runs `corgispec-lint` on a project where all memory files are fresh, within size caps, and have valid wikilinks
 - **THEN** system reports 0 errors, 0 warnings, and outputs a clean lint report to `wiki/meta/lint-report-YYYY-MM-DD.md`
 
 #### Scenario: Lint detects stale session-bridge
@@ -38,7 +38,7 @@ The system SHALL verify that the agent configuration file contains the Session M
 
 #### Scenario: Protocol missing
 - **WHEN** `CLAUDE.md` exists but does not contain `## Session Memory Protocol`
-- **THEN** system reports an error for check #8 with auto-fix suggestion to run `openspec-memory-init`
+- **THEN** system reports an error for check #8 with auto-fix suggestion to run `corgispec-memory-init`
 
 ### Requirement: Extraction completeness check
 The system SHALL verify that recently archived changes have corresponding entries in `wiki/patterns/` or `wiki/sessions/`, reporting info-level findings for gaps.

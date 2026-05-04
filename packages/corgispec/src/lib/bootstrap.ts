@@ -383,14 +383,14 @@ function getOverwriteTargets(target: string, schema: SchemaType, assetsRoot: str
 
 function projectRelativePathFromAsset(assetsRoot: string, schema: SchemaType, sourceFile: string): string {
   const commandsOpencodeRoot = resolve(assetsRoot, "commands/opencode");
-  const commandsClaudeRoot = resolve(assetsRoot, "commands/claude/opsx");
+  const commandsClaudeRoot = resolve(assetsRoot, "commands/claude/corgi");
   const schemaRoot = resolve(assetsRoot, "schemas", schema);
 
   if (sourceFile.startsWith(commandsOpencodeRoot)) {
     return `.opencode/commands/${relativeManagedFiles(commandsOpencodeRoot, [sourceFile])[0]}`;
   }
   if (sourceFile.startsWith(commandsClaudeRoot)) {
-    return `.claude/commands/opsx/${relativeManagedFiles(commandsClaudeRoot, [sourceFile])[0]}`;
+    return `.claude/commands/corgi/${relativeManagedFiles(commandsClaudeRoot, [sourceFile])[0]}`;
   }
   if (sourceFile.startsWith(schemaRoot)) {
     return `openspec/schemas/${schema}/${relativeManagedFiles(schemaRoot, [sourceFile])[0]}`;
@@ -425,7 +425,7 @@ function detectManagedFileModifications(
 }
 
 function createLegacyBackup(target: string, managedFiles: string[], context: BootstrapContext): void {
-  const backupRoot = resolve(target, "openspec/.opsx-backups", context.timestamp.replace(/[:.]/g, "-"));
+  const backupRoot = resolve(target, "openspec/.corgi-backups", context.timestamp.replace(/[:.]/g, "-"));
   for (const source of managedFiles) {
     if (!existsSync(source)) {
       continue;
@@ -525,7 +525,7 @@ function finalize(
         actions: context.actions,
         overall: status === "success" ? "PASS" : "FAIL",
       })
-    : resolve(target, "openspec/.opsx-install-report.md");
+    : resolve(target, "openspec/.corgi-install-report.md");
 
   return {
     status,

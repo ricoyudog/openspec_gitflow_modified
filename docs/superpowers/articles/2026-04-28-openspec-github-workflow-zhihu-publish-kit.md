@@ -26,8 +26,8 @@
 ### 图 1：从 OpenSpec 文档，到 GitHub 执行闭环
 
 - Caption：`从 OpenSpec 文档，到 GitHub 执行闭环`
-- Figure note：`这张图对应文章最核心的主张：proposal、spec、design、tasks 不应停留在本地文档，而是继续进入 GitHub Issues 跟踪，并沿着 /opsx-apply、/opsx-review、/opsx-archive 形成可执行的工程节奏。`
-- 画面建议：左到右流程图，依次展示 `/opsx-propose` -> `proposal/spec/design/tasks` -> `GitHub Issues（parent + child issues）` -> `/opsx-apply` -> `Task Group 完成？` -> `/opsx-review` -> `Approved?` -> 返回下一组或进入 `/opsx-archive`；保留 `Rejected -> Fix tasks added -> /opsx-apply` 的回路。
+- Figure note：`这张图对应文章最核心的主张：proposal、spec、design、tasks 不应停留在本地文档，而是继续进入 GitHub Issues 跟踪，并沿着 /corgi-apply、/corgi-review、/corgi-archive 形成可执行的工程节奏。`
+- 画面建议：左到右流程图，依次展示 `/corgi-propose` -> `proposal/spec/design/tasks` -> `GitHub Issues（parent + child issues）` -> `/corgi-apply` -> `Task Group 完成？` -> `/corgi-review` -> `Approved?` -> 返回下一组或进入 `/corgi-archive`；保留 `Rejected -> Fix tasks added -> /corgi-apply` 的回路。
 
 ### 图 2：OpenSpec 底座之上，补的是 GitHub 工作流胶水
 

@@ -1,0 +1,22 @@
+{
+  "active_plan": "/mnt/e/code/openspec_gitflow_modified/.sisyphus/plans/readme-copypaste-reframe.md",
+  "started_at": "2026-05-04T06:05:09.782Z",
+  "session_ids": [
+    "ses_20e6f31c5ffeByl3COBlAXDkcx"
+  ],
+  "session_origins": {
+    "ses_20e6f31c5ffeByl3COBlAXDkcx": "direct"
+  },
+  "plan_name": "readme-copypaste-reframe",
+  "agent": "atlas",
+  "task_sessions": {
+    "todo:1": {
+      "task_key": "todo:1",
+      "task_label": "1",
+      "task_title": "Update README.md (English)",
+      "session_id": "ses_20e66f0c1ffeghKNQDiQXa55oy",
+      "agent": "general",
+      "updated_at": "2026-05-04T06:08:01.901Z"
+    }
+  }
+}

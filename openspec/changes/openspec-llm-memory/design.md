@@ -46,10 +46,10 @@ The target projects using OpenSpec are also Obsidian vaults, meaning the memory 
 **Investigated**: Claude Code sessions can end abruptly (terminal close, context exhaustion). CLAUDE.md instructions are best-effort.
 **Concluded**: Dual-write strategy — session-bridge is updated both at apply closeout (guaranteed via skill steps) AND at shutdown (best-effort). Stale bridge (>30d) triggers lint warning. Recovery: AI reads hot.md + index.md as fallback context.
 
-### 4. Should memory-init be part of openspec-install or standalone?
+### 4. Should memory-init be part of corgispec-install or standalone?
 
 **Investigated**: Some projects want openspec without memory overhead (CI pipelines, small scripts).
-**Concluded**: Both. `openspec-install` calls memory-init by default; `--no-memory` flag skips it. Standalone `/opsx-memory-init` for adding memory to existing installs.
+**Concluded**: Both. `corgispec-install` calls memory-init by default; `--no-memory` flag skips it. Standalone `/corgi-memory-init` for adding memory to existing installs.
 
 ## Decisions
 
@@ -75,7 +75,7 @@ The target projects using OpenSpec are also Obsidian vaults, meaning the memory 
 
 ### 3. Lint as Separate Skill (Not Integrated into Archive)
 
-**Decision**: `openspec-lint` is a standalone molecule skill, recommended before archive but not blocking.
+**Decision**: `corgispec-lint` is a standalone molecule skill, recommended before archive but not blocking.
 
 **Rationale**: Separation of concerns — lint detects problems, archive extracts knowledge. Running lint should never block the user's workflow. Pre-archive suggestion is via CLAUDE.md instruction.
 

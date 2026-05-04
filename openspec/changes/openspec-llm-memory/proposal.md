@@ -6,12 +6,12 @@ We need a memory system that: (1) costs ≤ 3000 tokens at startup, (2) overlays
 
 ## What Changes
 
-- **New skill `openspec-memory-init`** (Atom): Creates `memory/` and `wiki/` directory structures with template files; injects Session Memory Protocol into CLAUDE.md/AGENTS.md.
-- **New skill `openspec-lint`** (Molecule): 11-check health validator for memory freshness, file size caps, broken wikilinks, and extraction completeness.
-- **New skill `openspec-ask`** (Molecule): Q&A channel allowing humans to ask questions in Obsidian that AI answers using vault context with early-stop retrieval.
-- **New skill `openspec-memory-extract`** (Atom): Extracts reusable patterns and session summaries from completed changes into long-term wiki.
-- **Modified `openspec-install`**: Calls `openspec-memory-init` after standard install (opt-out via `--no-memory`).
-- **Modified `openspec-archive`**: Calls `openspec-memory-extract` before closing a change to capture long-term knowledge.
+- **New skill `corgispec-memory-init`** (Atom): Creates `memory/` and `wiki/` directory structures with template files; injects Session Memory Protocol into CLAUDE.md/AGENTS.md.
+- **New skill `corgispec-lint`** (Molecule): 11-check health validator for memory freshness, file size caps, broken wikilinks, and extraction completeness.
+- **New skill `corgispec-ask`** (Molecule): Q&A channel allowing humans to ask questions in Obsidian that AI answers using vault context with early-stop retrieval.
+- **New skill `corgispec-memory-extract`** (Atom): Extracts reusable patterns and session summaries from completed changes into long-term wiki.
+- **Modified `corgispec-install`**: Calls `corgispec-memory-init` after standard install (opt-out via `--no-memory`).
+- **Modified `corgispec-archive`**: Calls `corgispec-memory-extract` before closing a change to capture long-term knowledge.
 - **Modified apply closeout**: Writes session-bridge, pitfalls, and wiki/hot.md updates after each Task Group.
 - **New lifecycle hooks**: Session startup reads memory (3 files), session shutdown writes session-bridge.
 
@@ -30,7 +30,7 @@ We need a memory system that: (1) costs ≤ 3000 tokens at startup, (2) overlays
 
 - **New directories**: `memory/` (3 files), `wiki/` (7 subdirs, 8+ files) created per-project
 - **Skills directory**: 4 new skills across `.opencode/skills/`, `.claude/skills/`, `.codex/skills/` (3-directory sync)
-- **Existing skills modified**: `openspec-install`, `openspec-archive`, apply closeout logic
+- **Existing skills modified**: `corgispec-install`, `corgispec-archive`, apply closeout logic
 - **Agent config files**: CLAUDE.md and AGENTS.md get Session Memory Protocol injection
 - **Token budget**: +2900 tokens per session startup (≈7% of Claude Code baseline)
 - **Dependencies**: None new — pure markdown/yaml, no external packages

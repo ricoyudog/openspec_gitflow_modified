@@ -10,10 +10,10 @@
  * Run as part of prepublishOnly: npm run build && node scripts/bundle-assets.js
  *
  * Asset sources:
- *   .opencode/skills/openspec-*  → assets/skills/
+ *   .opencode/skills/corgispec-*  → assets/skills/
  *   .opencode/commands/*.md      → assets/commands/opencode/
- *   .claude/commands/opsx/*.md   → assets/commands/claude/opsx/
- *   .opencode/skills/openspec-memory-init/templates/** → assets/memory-init/templates/
+ *   .claude/commands/corgi/*.md   → assets/commands/claude/corgi/
+ *   .opencode/skills/corgispec-memory-init/templates/** → assets/memory-init/templates/
  *   schemas/                     → assets/schemas/ (JSON Schema files for validation)
  *   openspec/schemas/            → assets/schemas/ (workflow schemas for init/doctor)
  */
@@ -55,7 +55,7 @@ function copyMarkdownFiles(sourceDir, destDir) {
   return files.length;
 }
 
-// --- 1. Bundle skills from .opencode/skills/openspec-* ---
+// --- 1. Bundle skills from .opencode/skills/corgispec-* ---
 const skillsSource = resolve(repoRoot, ".opencode/skills");
 const skillsDest = resolve(assetsDir, "skills");
 mkdirSync(skillsDest, { recursive: true });
@@ -65,7 +65,7 @@ if (existsSync(skillsSource)) {
   let skillCount = 0;
 
   for (const entry of entries) {
-    if (entry.isDirectory() && entry.name.startsWith("openspec-")) {
+    if (entry.isDirectory() && entry.name.startsWith("corgispec-")) {
       const src = resolve(skillsSource, entry.name);
       const dest = resolve(skillsDest, entry.name);
       cpSync(src, dest, { recursive: true });
@@ -90,8 +90,8 @@ if (existsSync(skillsSource)) {
 // --- 2. Bundle project-local command assets ---
 const opencodeCommandsSource = resolve(repoRoot, ".opencode/commands");
 const opencodeCommandsDest = resolve(assetsDir, "commands/opencode");
-const claudeCommandsSource = resolve(repoRoot, ".claude/commands/opsx");
-const claudeCommandsDest = resolve(assetsDir, "commands/claude/opsx");
+const claudeCommandsSource = resolve(repoRoot, ".claude/commands/corgi");
+const claudeCommandsDest = resolve(assetsDir, "commands/claude/corgi");
 
 if (existsSync(opencodeCommandsSource)) {
   const commandCount = copyMarkdownFiles(opencodeCommandsSource, opencodeCommandsDest);
@@ -109,10 +109,10 @@ if (existsSync(claudeCommandsSource)) {
   errors.push(`Claude commands source not found at ${claudeCommandsSource}`);
 }
 
-// --- 3. Bundle openspec-memory-init templates ---
+// --- 3. Bundle corgispec-memory-init templates ---
 const memoryInitTemplatesSource = resolve(
   repoRoot,
-  ".opencode/skills/openspec-memory-init/templates"
+  ".opencode/skills/corgispec-memory-init/templates"
 );
 const memoryInitTemplatesDest = resolve(assetsDir, "memory-init/templates");
 
@@ -120,7 +120,7 @@ if (existsSync(memoryInitTemplatesSource)) {
   mkdirSync(resolve(assetsDir, "memory-init"), { recursive: true });
   cpSync(memoryInitTemplatesSource, memoryInitTemplatesDest, { recursive: true });
   totalFiles++;
-  console.log(`✓ Bundled openspec-memory-init templates from ${memoryInitTemplatesSource}`);
+  console.log(`✓ Bundled corgispec-memory-init templates from ${memoryInitTemplatesSource}`);
 } else {
   errors.push(`Memory init templates source not found at ${memoryInitTemplatesSource}`);
 }
@@ -188,7 +188,7 @@ function verifyFile(srcPath, destPath) {
 if (existsSync(skillsSource)) {
   const entries = readdirSync(skillsSource, { withFileTypes: true });
   for (const entry of entries) {
-    if (entry.isDirectory() && entry.name.startsWith("openspec-")) {
+    if (entry.isDirectory() && entry.name.startsWith("corgispec-")) {
       for (const file of ["SKILL.md", "skill.meta.json"]) {
         const src = resolve(skillsSource, entry.name, file);
         const dest = resolve(skillsDest, entry.name, file);
@@ -220,12 +220,12 @@ if (existsSync(jsonSchemasSource)) {
 // Verify representative command and memory-init assets
 for (const [label, src, dest] of [
   [
-    "commands/opencode/opsx-install.md",
-    resolve(opencodeCommandsSource, "opsx-install.md"),
-    resolve(opencodeCommandsDest, "opsx-install.md"),
+    "commands/opencode/corgi-install.md",
+    resolve(opencodeCommandsSource, "corgi-install.md"),
+    resolve(opencodeCommandsDest, "corgi-install.md"),
   ],
   [
-    "commands/claude/opsx/install.md",
+    "commands/claude/corgi/install.md",
     resolve(claudeCommandsSource, "install.md"),
     resolve(claudeCommandsDest, "install.md"),
   ],

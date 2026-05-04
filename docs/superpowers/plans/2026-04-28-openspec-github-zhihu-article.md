@@ -8,7 +8,7 @@
 
 **Tech Stack:** Markdown, Mermaid, README.md, README.zh-TW.md, approved design spec, GitHub / OpenSpec workflow terminology.
 
-**Design Spec:** `docs/superpowers/specs/2026-04-28-openspec-github-zhihu-article-design.md`
+**Design Spec:** `docs/superpowers/specs/2026-04-28-corgispec-github-zhihu-article-design.md`
 
 ---
 
@@ -16,11 +16,11 @@
 
 ```
 docs/superpowers/articles/
-└── 2026-04-28-openspec-github-workflow-zhihu.md
+└── 2026-04-28-corgispec-github-workflow-zhihu.md
    # Final Zhihu article draft in Simplified Chinese
 
 docs/superpowers/specs/
-└── 2026-04-28-openspec-github-zhihu-article-design.md
+└── 2026-04-28-corgispec-github-zhihu-article-design.md
    # Approved article design
 
 README.md
@@ -44,8 +44,8 @@ docs/superpowers/specs/2026-04-27-composable-skill-hierarchy-design.md
 ### Task 1: Create the article scaffold and opening angle
 
 **Files:**
-- Create: `docs/superpowers/articles/2026-04-28-openspec-github-workflow-zhihu.md`
-- Reference: `docs/superpowers/specs/2026-04-28-openspec-github-zhihu-article-design.md`
+- Create: `docs/superpowers/articles/2026-04-28-corgispec-github-workflow-zhihu.md`
+- Reference: `docs/superpowers/specs/2026-04-28-corgispec-github-zhihu-article-design.md`
 - Reference: `README.md`
 - Reference: `README.zh-TW.md`
 
@@ -61,7 +61,7 @@ Expected: `docs/superpowers/articles/` exists.
 
 - [ ] **Step 3: Write the article title, opening hook, and section skeleton**
 
-Write this exact markdown into `docs/superpowers/articles/2026-04-28-openspec-github-workflow-zhihu.md`:
+Write this exact markdown into `docs/superpowers/articles/2026-04-28-corgispec-github-workflow-zhihu.md`:
 
 ```markdown
 <!-- 备选标题：
@@ -93,13 +93,13 @@ Write this exact markdown into `docs/superpowers/articles/2026-04-28-openspec-gi
 
 - [ ] **Step 4: Verify the scaffold structure**
 
-Run: `rg '^# |^## ' docs/superpowers/articles/2026-04-28-openspec-github-workflow-zhihu.md`
+Run: `rg '^# |^## ' docs/superpowers/articles/2026-04-28-corgispec-github-workflow-zhihu.md`
 Expected: one `#` title and six `##` section headings appear in the output.
 
 - [ ] **Step 5: Commit the scaffold if the execution session has explicit commit approval**
 
 ```bash
-git add docs/superpowers/articles/2026-04-28-openspec-github-workflow-zhihu.md
+git add docs/superpowers/articles/2026-04-28-corgispec-github-workflow-zhihu.md
 git commit -m "docs: scaffold OpenSpec GitHub Zhihu article"
 ```
 
@@ -108,7 +108,7 @@ git commit -m "docs: scaffold OpenSpec GitHub Zhihu article"
 ### Task 2: Write the upstream framing and the GitHub-facing value section
 
 **Files:**
-- Modify: `docs/superpowers/articles/2026-04-28-openspec-github-workflow-zhihu.md`
+- Modify: `docs/superpowers/articles/2026-04-28-corgispec-github-workflow-zhihu.md`
 - Reference: `README.md`
 - Reference: `README.zh-TW.md`
 
@@ -148,13 +148,13 @@ Expected: matches for all six capability areas appear across the two README file
 
 - [ ] **Step 4: Verify the article uses precise GitHub wording**
 
-Run: `rg 'GitHub Issues|gh CLI|GitHub Project' docs/superpowers/articles/2026-04-28-openspec-github-workflow-zhihu.md`
+Run: `rg 'GitHub Issues|gh CLI|GitHub Project' docs/superpowers/articles/2026-04-28-corgispec-github-workflow-zhihu.md`
 Expected: `GitHub Issues` and `gh CLI` appear. `GitHub Project` appears at most once and only in the qualified sentence that describes it as a view, not the core tracked implementation.
 
 - [ ] **Step 5: Commit the value section if the execution session has explicit commit approval**
 
 ```bash
-git add docs/superpowers/articles/2026-04-28-openspec-github-workflow-zhihu.md
+git add docs/superpowers/articles/2026-04-28-corgispec-github-workflow-zhihu.md
 git commit -m "docs: add GitHub workflow framing to Zhihu article"
 ```
 
@@ -163,7 +163,7 @@ git commit -m "docs: add GitHub workflow framing to Zhihu article"
 ### Task 3: Add the reusable-skill argument, practical example, and diagrams
 
 **Files:**
-- Modify: `docs/superpowers/articles/2026-04-28-openspec-github-workflow-zhihu.md`
+- Modify: `docs/superpowers/articles/2026-04-28-corgispec-github-workflow-zhihu.md`
 - Reference: `docs/superpowers/specs/2026-04-27-composable-skill-hierarchy-design.md`
 - Reference: `README.md`
 
@@ -190,13 +190,13 @@ Under `## 一个 GitHub 用户能直接理解的例子`, write:
 ```markdown
 举一个最直接的例子：假设你要给项目加上 `JWT + refresh token` 登录能力。
 
-这时候你可以先从 `/opsx-propose` 开始，让系统生成 proposal、spec、design 和 tasks。到这一步，事情还只是“规划完成”。真正关键的是，后续流程不会停在本地 markdown 文件里，而是会继续进入 GitHub 跟踪。
+这时候你可以先从 `/corgi-propose` 开始，让系统生成 proposal、spec、design 和 tasks。到这一步，事情还只是“规划完成”。真正关键的是，后续流程不会停在本地 markdown 文件里，而是会继续进入 GitHub 跟踪。
 
-接下来，workflow 会把 change 映射到 GitHub Issues。然后你可以用 `/opsx-apply` 一次执行一个 Task Group，而不是把整个变更一次性做完。这样每一轮推进的范围更小，review 成本也更可控。
+接下来，workflow 会把 change 映射到 GitHub Issues。然后你可以用 `/corgi-apply` 一次执行一个 Task Group，而不是把整个变更一次性做完。这样每一轮推进的范围更小，review 成本也更可控。
 
-当一个 Task Group 完成后，再进入 `/opsx-review`。这里的重点不是“自动往下走”，而是先收集 evidence，再要求一个明确的人类决策：批准、拒绝，或者回到修复。也就是说，review 在这套流程里不是一句口头确认，而是真正的 gate。
+当一个 Task Group 完成后，再进入 `/corgi-review`。这里的重点不是“自动往下走”，而是先收集 evidence，再要求一个明确的人类决策：批准、拒绝，或者回到修复。也就是说，review 在这套流程里不是一句口头确认，而是真正的 gate。
 
-如果批准，就继续推进下一个 Task Group；等所有组都完成后，再进入 `/opsx-archive` 做最终归档。这整个路径的价值在于：spec 没有停在 planning 阶段，而是真的沿着 GitHub 的执行节奏走到了结束。
+如果批准，就继续推进下一个 Task Group；等所有组都完成后，再进入 `/corgi-archive` 做最终归档。这整个路径的价值在于：spec 没有停在 planning 阶段，而是真的沿着 GitHub 的执行节奏走到了结束。
 ```
 
 - [ ] **Step 3: Insert the workflow and skill-hierarchy Mermaid diagrams**
@@ -206,16 +206,16 @@ Insert this block immediately after the GitHub example section:
 ```markdown
 ```mermaid
 flowchart LR
-    A["/opsx-propose"] --> B["proposal.md\nspecs/\ndesign.md\ntasks.md"]
+    A["/corgi-propose"] --> B["proposal.md\nspecs/\ndesign.md\ntasks.md"]
     B --> C["GitHub Issues\nparent + child issues"]
-    C --> D["/opsx-apply"]
+    C --> D["/corgi-apply"]
     D --> E{"One Task Group done?"}
-    E -->|Yes| F["/opsx-review"]
+    E -->|Yes| F["/corgi-review"]
     F --> G{"Approved?"}
     G -->|Yes, more groups| D
     G -->|Rejected| H["Fix tasks added"]
     H --> D
-    G -->|All done| I["/opsx-archive"]
+    G -->|All done| I["/corgi-archive"]
 ```
 
 ```mermaid
@@ -227,13 +227,13 @@ flowchart TD
 
 - [ ] **Step 4: Verify that both diagrams and workflow commands are present**
 
-Run: `rg '^```mermaid|/opsx-propose|/opsx-apply|/opsx-review|/opsx-archive|Atoms|Molecules|Compounds' docs/superpowers/articles/2026-04-28-openspec-github-workflow-zhihu.md`
-Expected: two Mermaid code fences appear, all four `/opsx-*` commands appear, and `Atoms`, `Molecules`, `Compounds` appear.
+Run: `rg '^```mermaid|/corgi-propose|/corgi-apply|/corgi-review|/corgi-archive|Atoms|Molecules|Compounds' docs/superpowers/articles/2026-04-28-corgispec-github-workflow-zhihu.md`
+Expected: two Mermaid code fences appear, all four `/corgi-*` commands appear, and `Atoms`, `Molecules`, `Compounds` appear.
 
 - [ ] **Step 5: Commit the example and diagrams if the execution session has explicit commit approval**
 
 ```bash
-git add docs/superpowers/articles/2026-04-28-openspec-github-workflow-zhihu.md
+git add docs/superpowers/articles/2026-04-28-corgispec-github-workflow-zhihu.md
 git commit -m "docs: add workflow example and diagrams to Zhihu article"
 ```
 
@@ -242,8 +242,8 @@ git commit -m "docs: add workflow example and diagrams to Zhihu article"
 ### Task 4: Write the closing section and run editorial verification
 
 **Files:**
-- Modify: `docs/superpowers/articles/2026-04-28-openspec-github-workflow-zhihu.md`
-- Reference: `docs/superpowers/specs/2026-04-28-openspec-github-zhihu-article-design.md`
+- Modify: `docs/superpowers/articles/2026-04-28-corgispec-github-workflow-zhihu.md`
+- Reference: `docs/superpowers/specs/2026-04-28-corgispec-github-zhihu-article-design.md`
 
 - [ ] **Step 1: Write the benefit summary and close with this exact content**
 
@@ -265,12 +265,12 @@ Under `## 结语：先从一个 change 开始`, write:
 
 - [ ] **Step 2: Scan for banned overclaims**
 
-Run: `rg '完全自动|自动批准|无需人工|GitHub Project 是核心|system of record|无需 review' docs/superpowers/articles/2026-04-28-openspec-github-workflow-zhihu.md`
+Run: `rg '完全自动|自动批准|无需人工|GitHub Project 是核心|system of record|无需 review' docs/superpowers/articles/2026-04-28-corgispec-github-workflow-zhihu.md`
 Expected: no matches.
 
 - [ ] **Step 3: Verify the section count and the approved narrative shape**
 
-Run: `rg -c '^## ' docs/superpowers/articles/2026-04-28-openspec-github-workflow-zhihu.md`
+Run: `rg -c '^## ' docs/superpowers/articles/2026-04-28-corgispec-github-workflow-zhihu.md`
 Expected: `6`
 
 - [ ] **Step 4: Read the full draft against the approved design spec and confirm coverage**
@@ -291,6 +291,6 @@ Expected: all six requirements are visibly present in the article draft.
 - [ ] **Step 5: Commit the final draft if the execution session has explicit commit approval**
 
 ```bash
-git add docs/superpowers/articles/2026-04-28-openspec-github-workflow-zhihu.md
+git add docs/superpowers/articles/2026-04-28-corgispec-github-workflow-zhihu.md
 git commit -m "docs: draft OpenSpec GitHub Zhihu article"
 ```

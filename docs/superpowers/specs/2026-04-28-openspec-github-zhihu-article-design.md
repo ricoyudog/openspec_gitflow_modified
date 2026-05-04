@@ -143,11 +143,11 @@ Use a relatable feature example that already appears in the README:
 
 Recommended walkthrough:
 
-1. Run `/opsx-propose` to generate proposal, specs, design, and tasks.
+1. Run `/corgi-propose` to generate proposal, specs, design, and tasks.
 2. Mirror the change into GitHub issues.
-3. Run `/opsx-apply` to execute one Task Group.
-4. Run `/opsx-review` to gather evidence and ask for an explicit decision.
-5. If approved, continue with the next group; when all groups finish, run `/opsx-archive`.
+3. Run `/corgi-apply` to execute one Task Group.
+4. Run `/corgi-review` to gather evidence and ask for an explicit decision.
+5. If approved, continue with the next group; when all groups finish, run `/corgi-archive`.
 
 The point of the example is not to teach every command flag. The point is to show that the workflow is staged, reviewable, and Git-friendly.
 
@@ -157,16 +157,16 @@ Include the workflow diagram below in the article.
 
 ```mermaid
 flowchart LR
-    A["/opsx-propose"] --> B["proposal.md\nspecs/\ndesign.md\ntasks.md"]
+    A["/corgi-propose"] --> B["proposal.md\nspecs/\ndesign.md\ntasks.md"]
     B --> C["GitHub Issues\nparent + child issues"]
-    C --> D["/opsx-apply"]
+    C --> D["/corgi-apply"]
     D --> E{"One Task Group done?"}
-    E -->|Yes| F["/opsx-review"]
+    E -->|Yes| F["/corgi-review"]
     F --> G{"Approved?"}
     G -->|Yes, more groups| D
     G -->|Rejected| H["Fix tasks added"]
     H --> D
-    G -->|All done| I["/opsx-archive"]
+    G -->|All done| I["/corgi-archive"]
 ```
 
 The article can optionally add a second, smaller diagram for the skill hierarchy:

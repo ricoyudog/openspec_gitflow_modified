@@ -30,7 +30,7 @@ export interface WriteInstallReportInput {
 }
 
 export function writeInstallManifest(input: WriteInstallManifestInput): string {
-  const manifestPath = resolve(input.targetDir, "openspec/.opsx-install.json");
+  const manifestPath = resolve(input.targetDir, "openspec/.corgi-install.json");
   mkdirSync(dirname(manifestPath), { recursive: true });
 
   const files = Object.fromEntries(
@@ -59,7 +59,7 @@ export function writeInstallManifest(input: WriteInstallManifestInput): string {
 }
 
 export function writeInstallReport(input: WriteInstallReportInput): string {
-  const reportPath = resolve(input.targetDir, "openspec/.opsx-install-report.md");
+  const reportPath = resolve(input.targetDir, "openspec/.corgi-install-report.md");
   mkdirSync(dirname(reportPath), { recursive: true });
 
   const lines = [

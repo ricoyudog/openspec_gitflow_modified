@@ -8,7 +8,7 @@
 - [x] 1.4 Create `src/bin/corgispec.ts` entry point with commander setup, `--version`, `--help`, `--no-color`
 - [x] 1.5 Add Node version guard (exit with error if < 18)
 - [x] 1.6 Add `vitest.config.ts` and verify `npm test` runs
-- [x] 1.7 Add `prepublishOnly` script that builds and copies skills from `../../.opencode/skills/openspec-*` into `assets/skills/`
+- [x] 1.7 Add `prepublishOnly` script that builds and copies skills from `../../.opencode/skills/corgispec-*` into `assets/skills/`
 - [x] 1.8 Verify `npm pack` produces a working tarball and `npx corgispec --version` works from it
 
 ## 2. Config & Schema Infrastructure
@@ -51,7 +51,7 @@
 
 ## 6. Asset Bundling & Publish Readiness
 
-- [x] 6.1 Create `scripts/bundle-assets.ts` — copies `.opencode/skills/openspec-*` and `schemas/` into `packages/corgispec/assets/`
+- [x] 6.1 Create `scripts/bundle-assets.ts` — copies `.opencode/skills/corgispec-*` and `schemas/` into `packages/corgispec/assets/`
 - [x] 6.2 Add `.gitignore` entry for `packages/corgispec/assets/` (generated at build time)
 - [x] 6.3 Validate that bundled skills match source (checksum or content compare)
 - [x] 6.4 Add `CHANGELOG.md` with initial entry

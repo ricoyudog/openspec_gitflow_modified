@@ -49,7 +49,7 @@ The workflow has diverged from upstream significantly (custom schemas, different
 
 **Investigation**: Options — (a) symlinks (breaks on npm pack), (b) build-time copy script, (c) reference at runtime via relative path.
 
-**Conclusion**: Build-time copy. A `prepublishOnly` script copies `.opencode/skills/openspec-*` into `packages/corgispec/assets/skills/`. The `.gitignore` excludes the copied assets. CI validates they match.
+**Conclusion**: Build-time copy. A `prepublishOnly` script copies `.opencode/skills/corgispec-*` into `packages/corgispec/assets/skills/`. The `.gitignore` excludes the copied assets. CI validates they match.
 
 ### 3. Can the `corgispec` package name be claimed on npm?
 

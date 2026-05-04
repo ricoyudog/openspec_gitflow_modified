@@ -14,49 +14,49 @@
 
 ### Command wrappers to preserve and lightly update
 
-- Modify: `.opencode/commands/opsx-propose.md`
-- Modify: `.opencode/commands/opsx-apply.md`
-- Modify: `.opencode/commands/opsx-review.md`
-- Modify: `.claude/commands/opsx/propose.md`
-- Modify: `.claude/commands/opsx/apply.md`
-- Modify: `.claude/commands/opsx/review.md`
+- Modify: `.opencode/commands/corgi-propose.md`
+- Modify: `.opencode/commands/corgi-apply.md`
+- Modify: `.opencode/commands/corgi-review.md`
+- Modify: `.claude/commands/corgi/propose.md`
+- Modify: `.claude/commands/corgi/apply.md`
+- Modify: `.claude/commands/corgi/review.md`
 
 These should stay as shallow routers and postcondition checkers. Changes here should be minimal and only clarify phase names, handoff expectations, and postconditions.
 
 ### Propose skill surfaces
 
-- Modify: `.opencode/skills/openspec-propose/SKILL.md`
-- Modify: `.opencode/skills/openspec-gh-propose/SKILL.md`
-- Modify: `.claude/skills/openspec-propose/SKILL.md`
-- Modify: `.claude/skills/openspec-gh-propose/SKILL.md`
-- Modify: `.opencode/skills/openspec-propose/references/gitlab-issues.md`
-- Modify: `.claude/skills/openspec-propose/references/gitlab-issues.md`
+- Modify: `.opencode/skills/corgispec-propose/SKILL.md`
+- Modify: `.opencode/skills/corgispec-gh-propose/SKILL.md`
+- Modify: `.claude/skills/corgispec-propose/SKILL.md`
+- Modify: `.claude/skills/corgispec-gh-propose/SKILL.md`
+- Modify: `.opencode/skills/corgispec-propose/references/gitlab-issues.md`
+- Modify: `.claude/skills/corgispec-propose/references/gitlab-issues.md`
 
 These are the writer side of the current tracking-shape drift.
 
 ### Apply skill surfaces
 
-- Modify: `.opencode/skills/openspec-apply-change/SKILL.md`
-- Modify: `.opencode/skills/openspec-gh-apply/SKILL.md`
-- Modify: `.claude/skills/openspec-apply-change/SKILL.md`
-- Modify: `.claude/skills/openspec-gh-apply/SKILL.md`
-- Modify: `.opencode/skills/openspec-apply-change/references/issue-sync.md`
-- Modify: `.opencode/skills/openspec-gh-apply/references/issue-sync.md`
-- Modify: `.claude/skills/openspec-apply-change/references/issue-sync.md`
-- Modify: `.claude/skills/openspec-gh-apply/references/issue-sync.md`
+- Modify: `.opencode/skills/corgispec-apply-change/SKILL.md`
+- Modify: `.opencode/skills/corgispec-gh-apply/SKILL.md`
+- Modify: `.claude/skills/corgispec-apply-change/SKILL.md`
+- Modify: `.claude/skills/corgispec-gh-apply/SKILL.md`
+- Modify: `.opencode/skills/corgispec-apply-change/references/issue-sync.md`
+- Modify: `.opencode/skills/corgispec-gh-apply/references/issue-sync.md`
+- Modify: `.claude/skills/corgispec-apply-change/references/issue-sync.md`
+- Modify: `.claude/skills/corgispec-gh-apply/references/issue-sync.md`
 
 These are the reader side of the current drift and the main place where `develop` and `closeout` are still blended.
 
 ### Review skill surfaces
 
-- Modify: `.opencode/skills/openspec-review/SKILL.md`
-- Modify: `.opencode/skills/openspec-gh-review/SKILL.md`
-- Modify: `.claude/skills/openspec-review/SKILL.md`
-- Create or modify to match repo reality: `.claude/skills/openspec-gh-review/SKILL.md`
-- Modify: `.opencode/skills/openspec-review/references/quality-checks.md`
-- Modify: `.opencode/skills/openspec-review/references/review-decisions.md`
-- Modify: `.opencode/skills/openspec-review/references/repair-flow.md`
-- Mirror equivalent changes in `.claude/skills/openspec-review/references/`
+- Modify: `.opencode/skills/corgispec-review/SKILL.md`
+- Modify: `.opencode/skills/corgispec-gh-review/SKILL.md`
+- Modify: `.claude/skills/corgispec-review/SKILL.md`
+- Create or modify to match repo reality: `.claude/skills/corgispec-gh-review/SKILL.md`
+- Modify: `.opencode/skills/corgispec-review/references/quality-checks.md`
+- Modify: `.opencode/skills/corgispec-review/references/review-decisions.md`
+- Modify: `.opencode/skills/corgispec-review/references/repair-flow.md`
+- Mirror equivalent changes in `.claude/skills/corgispec-review/references/`
 
 These implement the `review -> advance/repair` separation.
 
@@ -71,12 +71,12 @@ These implement the `review -> advance/repair` separation.
 
 ### Deferred / optional cleanup after main refactor
 
-- Modify later: `.codex/skills/openspec-propose/SKILL.md`
-- Modify later: `.codex/skills/openspec-gh-propose/SKILL.md`
-- Modify later: `.codex/skills/openspec-apply-change/SKILL.md`
-- Modify later: `.codex/skills/openspec-gh-apply/SKILL.md`
-- Modify later: `.codex/skills/openspec-review/SKILL.md`
-- Modify later: `.codex/skills/openspec-gh-review/SKILL.md`
+- Modify later: `.codex/skills/corgispec-propose/SKILL.md`
+- Modify later: `.codex/skills/corgispec-gh-propose/SKILL.md`
+- Modify later: `.codex/skills/corgispec-apply-change/SKILL.md`
+- Modify later: `.codex/skills/corgispec-gh-apply/SKILL.md`
+- Modify later: `.codex/skills/corgispec-review/SKILL.md`
+- Modify later: `.codex/skills/corgispec-gh-review/SKILL.md`
 
 Do not start with `.codex`. First stabilize `.opencode` and `.claude`, then either port or retire `.codex` copies.
 
@@ -94,14 +94,14 @@ Do not start with `.codex`. First stabilize `.opencode` and `.claude`, then eith
 ### Task 1: Normalize the canonical tracking metadata contract
 
 **Files:**
-- Modify: `.opencode/skills/openspec-propose/references/gitlab-issues.md`
-- Modify: `.claude/skills/openspec-propose/references/gitlab-issues.md`
-- Modify: `.opencode/skills/openspec-gh-propose/SKILL.md`
-- Modify: `.claude/skills/openspec-gh-propose/SKILL.md`
-- Modify: `.opencode/skills/openspec-apply-change/references/issue-sync.md`
-- Modify: `.opencode/skills/openspec-gh-apply/references/issue-sync.md`
-- Modify: `.claude/skills/openspec-apply-change/references/issue-sync.md`
-- Modify: `.claude/skills/openspec-gh-apply/references/issue-sync.md`
+- Modify: `.opencode/skills/corgispec-propose/references/gitlab-issues.md`
+- Modify: `.claude/skills/corgispec-propose/references/gitlab-issues.md`
+- Modify: `.opencode/skills/corgispec-gh-propose/SKILL.md`
+- Modify: `.claude/skills/corgispec-gh-propose/SKILL.md`
+- Modify: `.opencode/skills/corgispec-apply-change/references/issue-sync.md`
+- Modify: `.opencode/skills/corgispec-gh-apply/references/issue-sync.md`
+- Modify: `.claude/skills/corgispec-apply-change/references/issue-sync.md`
+- Modify: `.claude/skills/corgispec-gh-apply/references/issue-sync.md`
 - Test/Reference: `openspec/changes/track-stool-color-and-duration/.gitlab.yaml`
 
 - [ ] **Step 1: Write a short contract block into the plan as the target shape**
@@ -206,10 +206,10 @@ review
 Read these files and confirm they all describe the same nested shape:
 
 ```text
-.opencode/skills/openspec-propose/references/gitlab-issues.md
-.opencode/skills/openspec-gh-propose/SKILL.md
-.opencode/skills/openspec-apply-change/references/issue-sync.md
-.opencode/skills/openspec-gh-apply/references/issue-sync.md
+.opencode/skills/corgispec-propose/references/gitlab-issues.md
+.opencode/skills/corgispec-gh-propose/SKILL.md
+.opencode/skills/corgispec-apply-change/references/issue-sync.md
+.opencode/skills/corgispec-gh-apply/references/issue-sync.md
 openspec/changes/track-stool-color-and-duration/.gitlab.yaml
 ```
 
@@ -220,12 +220,12 @@ Expected: nested `parent` + `groups` in all examples, with no `parent_iid`, `par
 ### Task 2: Keep command wrappers shallow and phase-aware
 
 **Files:**
-- Modify: `.opencode/commands/opsx-propose.md`
-- Modify: `.opencode/commands/opsx-apply.md`
-- Modify: `.opencode/commands/opsx-review.md`
-- Modify: `.claude/commands/opsx/propose.md`
-- Modify: `.claude/commands/opsx/apply.md`
-- Modify: `.claude/commands/opsx/review.md`
+- Modify: `.opencode/commands/corgi-propose.md`
+- Modify: `.opencode/commands/corgi-apply.md`
+- Modify: `.opencode/commands/corgi-review.md`
+- Modify: `.claude/commands/corgi/propose.md`
+- Modify: `.claude/commands/corgi/apply.md`
+- Modify: `.claude/commands/corgi/review.md`
 
 - [ ] **Step 1: Update wrapper wording to reference the shared phase contract without moving logic into wrappers**
 
@@ -275,10 +275,10 @@ Expected: wrappers remain short router docs, not platform workflow scripts.
 ### Task 3: Split apply into discover, develop, closeout, and review handoff
 
 **Files:**
-- Modify: `.opencode/skills/openspec-apply-change/SKILL.md`
-- Modify: `.opencode/skills/openspec-gh-apply/SKILL.md`
-- Modify: `.claude/skills/openspec-apply-change/SKILL.md`
-- Modify: `.claude/skills/openspec-gh-apply/SKILL.md`
+- Modify: `.opencode/skills/corgispec-apply-change/SKILL.md`
+- Modify: `.opencode/skills/corgispec-gh-apply/SKILL.md`
+- Modify: `.claude/skills/corgispec-apply-change/SKILL.md`
+- Modify: `.claude/skills/corgispec-gh-apply/SKILL.md`
 - Modify as needed: `references/checkpoint-flow.md`, `references/delegation-strategy.md`, `references/issue-sync.md`, `references/worktree-discovery.md`
 
 - [ ] **Step 1: Rewrite apply skill headings to match the phase contract**
@@ -353,10 +353,10 @@ That sentence can be explicit or enforced through heading/step boundaries, but t
 ### Task 4: Decompose review into evidence, decision gate, mutation, and repair
 
 **Files:**
-- Modify: `.opencode/skills/openspec-review/SKILL.md`
-- Modify: `.opencode/skills/openspec-gh-review/SKILL.md`
-- Modify: `.claude/skills/openspec-review/SKILL.md`
-- Create or modify: `.claude/skills/openspec-gh-review/SKILL.md`
+- Modify: `.opencode/skills/corgispec-review/SKILL.md`
+- Modify: `.opencode/skills/corgispec-gh-review/SKILL.md`
+- Modify: `.claude/skills/corgispec-review/SKILL.md`
+- Create or modify: `.claude/skills/corgispec-gh-review/SKILL.md`
 - Modify mirrors in review references
 
 - [ ] **Step 1: Make GitLab review headings phase-explicit**
@@ -427,10 +427,10 @@ Expected: same skeleton, different platform details.
 ### Task 5: Align propose closeout with the shared handoff model
 
 **Files:**
-- Modify: `.opencode/skills/openspec-propose/SKILL.md`
-- Modify: `.opencode/skills/openspec-gh-propose/SKILL.md`
-- Modify: `.claude/skills/openspec-propose/SKILL.md`
-- Modify: `.claude/skills/openspec-gh-propose/SKILL.md`
+- Modify: `.opencode/skills/corgispec-propose/SKILL.md`
+- Modify: `.opencode/skills/corgispec-gh-propose/SKILL.md`
+- Modify: `.claude/skills/corgispec-propose/SKILL.md`
+- Modify: `.claude/skills/corgispec-gh-propose/SKILL.md`
 
 - [ ] **Step 1: Keep the artifact DAG but separate it from tracker creation conceptually**
 
@@ -477,9 +477,9 @@ Expected: same DAG, clearer handoff/closeout boundary.
 Refresh the command table descriptions so they reflect the phase contract more precisely, for example:
 
 ```text
-/opsx-propose: generate planning artifacts, then close out into tracked handoff state
-/opsx-apply: execute one Task Group, sync closeout state, then stop for review
-/opsx-review: gather evidence, ask for an explicit decision, then apply the approved transition
+/corgi-propose: generate planning artifacts, then close out into tracked handoff state
+/corgi-apply: execute one Task Group, sync closeout state, then stop for review
+/corgi-review: gather evidence, ask for an explicit decision, then apply the approved transition
 ```
 
 - [ ] **Step 2: Keep the workflow diagram consistent with the new boundaries**

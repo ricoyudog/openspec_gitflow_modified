@@ -68,7 +68,7 @@ function writeLegacyTarget(targetDir: string): void {
   writeFileSync(resolve(targetDir, "README.md"), "# Legacy Project\n\nBootstrap target.\n");
   writeFileSync(resolve(targetDir, "openspec/config.yaml"), "schema: github-tracked\n");
   mkdirSync(resolve(targetDir, ".opencode/commands"), { recursive: true });
-  writeFileSync(resolve(targetDir, ".opencode/commands/opsx-install.md"), "# legacy install\n");
+  writeFileSync(resolve(targetDir, ".opencode/commands/corgi-install.md"), "# legacy install\n");
 }
 
 describe("bootstrap library", () => {
@@ -188,10 +188,10 @@ describe("bootstrap library", () => {
 
     expect(result.status).toBe("success");
     expect(result.mode).toBe("fresh");
-    expect(existsSync(resolve(targetDir, "openspec/.opsx-install-report.md"))).toBe(true);
-    expect(existsSync(resolve(targetDir, "openspec/.opsx-install.json"))).toBe(true);
+    expect(existsSync(resolve(targetDir, "openspec/.corgi-install-report.md"))).toBe(true);
+    expect(existsSync(resolve(targetDir, "openspec/.corgi-install.json"))).toBe(true);
 
-    const report = readFileSync(resolve(targetDir, "openspec/.opsx-install-report.md"), "utf-8");
+    const report = readFileSync(resolve(targetDir, "openspec/.corgi-install-report.md"), "utf-8");
     expect(report).toContain("Mode: fresh-install");
     expect(report).toContain("Overall: PASS");
   });
@@ -213,7 +213,7 @@ describe("bootstrap library", () => {
     const userSkillsBeforeStop = listDirEntries(userSkillRoot);
 
     writeFileSync(
-      resolve(targetDir, ".opencode/commands/opsx-install.md"),
+      resolve(targetDir, ".opencode/commands/corgi-install.md"),
       "# locally modified\n"
     );
 
@@ -232,7 +232,7 @@ describe("bootstrap library", () => {
     expect(result.message.toLowerCase()).toContain("local modifications");
     expect(listDirEntries(userSkillRoot)).toEqual(userSkillsBeforeStop);
 
-    const report = readFileSync(resolve(targetDir, "openspec/.opsx-install-report.md"), "utf-8");
+    const report = readFileSync(resolve(targetDir, "openspec/.corgi-install-report.md"), "utf-8");
     expect(report).toContain("Managed files");
     expect(report).toContain("FAIL");
   });
@@ -254,10 +254,10 @@ describe("bootstrap library", () => {
 
     expect(result.status).toBe("success");
     expect(result.mode).toBe("verify");
-    expect(existsSync(resolve(targetDir, "openspec/.opsx-install.json"))).toBe(false);
-    expect(existsSync(resolve(targetDir, ".opencode/commands/opsx-propose.md"))).toBe(false);
+    expect(existsSync(resolve(targetDir, "openspec/.corgi-install.json"))).toBe(false);
+    expect(existsSync(resolve(targetDir, ".opencode/commands/corgi-propose.md"))).toBe(false);
 
-    const report = readFileSync(resolve(targetDir, "openspec/.opsx-install-report.md"), "utf-8");
+    const report = readFileSync(resolve(targetDir, "openspec/.corgi-install-report.md"), "utf-8");
     expect(report).toContain("Mode: verify-only");
     expect(report).toContain("none (verify-only)");
   });
@@ -278,8 +278,8 @@ describe("bootstrap library", () => {
     expect(result.status).toBe("stopped");
     expect(result.mode).toBe("update");
     expect(result.message.toLowerCase()).toContain("update");
-    expect(existsSync(resolve(targetDir, "openspec/.opsx-install.json"))).toBe(false);
-    expect(existsSync(resolve(targetDir, ".opencode/commands/opsx-propose.md"))).toBe(false);
+    expect(existsSync(resolve(targetDir, "openspec/.corgi-install.json"))).toBe(false);
+    expect(existsSync(resolve(targetDir, ".opencode/commands/corgi-propose.md"))).toBe(false);
   });
 
   it("returns JSON-safe output with stable status fields", async () => {
@@ -320,25 +320,25 @@ describe("bootstrap library", () => {
     expect(result.status).toBe("needs-approval");
     expect(result.mode).toBe("legacy");
     expect(result.message.toLowerCase()).toContain("approval");
-    expect(existsSync(resolve(targetDir, "openspec/.opsx-install.json"))).toBe(false);
-    expect(existsSync(resolve(targetDir, ".opencode/commands/opsx-propose.md"))).toBe(false);
-    expect(existsSync(resolve(userSkillRoot, "claude/openspec-install"))).toBe(false);
-    expect(existsSync(resolve(userSkillRoot, "opencode/openspec-install"))).toBe(false);
-    expect(existsSync(resolve(userSkillRoot, "codex/openspec-install"))).toBe(false);
+    expect(existsSync(resolve(targetDir, "openspec/.corgi-install.json"))).toBe(false);
+    expect(existsSync(resolve(targetDir, ".opencode/commands/corgi-propose.md"))).toBe(false);
+    expect(existsSync(resolve(userSkillRoot, "claude/corgispec-install"))).toBe(false);
+    expect(existsSync(resolve(userSkillRoot, "opencode/corgispec-install"))).toBe(false);
+    expect(existsSync(resolve(userSkillRoot, "codex/corgispec-install"))).toBe(false);
 
-    const backupDir = resolve(targetDir, "openspec/.opsx-backups");
+    const backupDir = resolve(targetDir, "openspec/.corgi-backups");
     expect(existsSync(backupDir)).toBe(true);
 
-    const report = readFileSync(resolve(targetDir, "openspec/.opsx-install-report.md"), "utf-8");
+    const report = readFileSync(resolve(targetDir, "openspec/.corgi-install-report.md"), "utf-8");
     expect(report).toContain("Mode: legacy-install");
     expect(report).toContain("Overall: FAIL");
   });
 
   it("backs up the full overwrite set during legacy migration", async () => {
     writeLegacyTarget(targetDir);
-    mkdirSync(resolve(targetDir, ".claude/commands/opsx"), { recursive: true });
-    writeFileSync(resolve(targetDir, ".claude/commands/opsx/install.md"), "# legacy claude install\n");
-    writeFileSync(resolve(targetDir, ".opencode/commands/opsx-propose.md"), "# existing propose\n");
+    mkdirSync(resolve(targetDir, ".claude/commands/corgi"), { recursive: true });
+    writeFileSync(resolve(targetDir, ".claude/commands/corgi/install.md"), "# legacy claude install\n");
+    writeFileSync(resolve(targetDir, ".opencode/commands/corgi-propose.md"), "# existing propose\n");
 
     const result = await runBootstrap({
       target: targetDir,
@@ -352,7 +352,7 @@ describe("bootstrap library", () => {
 
     expect(result.status).toBe("needs-approval");
 
-    const backupRoot = resolve(targetDir, "openspec/.opsx-backups");
+    const backupRoot = resolve(targetDir, "openspec/.corgi-backups");
     expect(existsSync(backupRoot)).toBe(true);
 
     const backupDirName = result.actions
@@ -362,7 +362,7 @@ describe("bootstrap library", () => {
 
     expect(backupDirName).toBeTruthy();
     expect(
-      existsSync(resolve(backupRoot, backupDirName!, ".opencode/commands/opsx-propose.md"))
+      existsSync(resolve(backupRoot, backupDirName!, ".opencode/commands/corgi-propose.md"))
     ).toBe(true);
   });
 
@@ -381,11 +381,11 @@ describe("bootstrap library", () => {
 
     expect(result.status).toBe("success");
     expect(result.mode).toBe("legacy");
-    expect(existsSync(resolve(targetDir, "openspec/.opsx-install.json"))).toBe(true);
-    expect(existsSync(resolve(targetDir, ".opencode/commands/opsx-propose.md"))).toBe(true);
-    expect(existsSync(resolve(targetDir, "openspec/.opsx-backups"))).toBe(true);
+    expect(existsSync(resolve(targetDir, "openspec/.corgi-install.json"))).toBe(true);
+    expect(existsSync(resolve(targetDir, ".opencode/commands/corgi-propose.md"))).toBe(true);
+    expect(existsSync(resolve(targetDir, "openspec/.corgi-backups"))).toBe(true);
 
-    const report = readFileSync(resolve(targetDir, "openspec/.opsx-install-report.md"), "utf-8");
+    const report = readFileSync(resolve(targetDir, "openspec/.corgi-install-report.md"), "utf-8");
     expect(report).toContain("Mode: legacy-install");
     expect(report).toContain("Overall: PASS");
   });
@@ -410,10 +410,10 @@ describe("bootstrap library", () => {
 
       expect(result.status).toBe("failed");
       expect(result.message.toLowerCase()).toContain("glab");
-      expect(existsSync(resolve(targetDir, "openspec/.opsx-install.json"))).toBe(false);
-      expect(existsSync(resolve(targetDir, ".opencode/commands/opsx-propose.md"))).toBe(false);
+      expect(existsSync(resolve(targetDir, "openspec/.corgi-install.json"))).toBe(false);
+      expect(existsSync(resolve(targetDir, ".opencode/commands/corgi-propose.md"))).toBe(false);
 
-      const report = readFileSync(resolve(targetDir, "openspec/.opsx-install-report.md"), "utf-8");
+      const report = readFileSync(resolve(targetDir, "openspec/.corgi-install-report.md"), "utf-8");
       expect(report).toContain("gh/glab CLI");
       expect(report).toContain("FAIL");
     } finally {

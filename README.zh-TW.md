@@ -21,19 +21,19 @@ OpenSpec 提供核心 CLI（`openspec init`、artifact pipeline、change lifecyc
 
 ```mermaid
 flowchart LR
-    A["/opsx-propose"] --> B["proposal.md\nspecs/\ndesign.md\ntasks.md"]
+    A["/corgi-propose"] --> B["proposal.md\nspecs/\ndesign.md\ntasks.md"]
     B --> C["Issues\n(parent + children)"]
-    C --> D["/opsx-apply"]
+    C --> D["/corgi-apply"]
     D --> E{"Group done?"}
-    E -->|Yes| F["/opsx-review"]
+    E -->|Yes| F["/corgi-review"]
     F --> G{"Approved?"}
     G -->|Yes, more groups| D
     G -->|Rejected| H["Fix tasks added"]
     H --> D
-    G -->|All done| I["/opsx-archive"]
+    G -->|All done| I["/corgi-archive"]
 ```
 
-這張圖只呈現 commands 之間的 handoff points。實際上，`/opsx-propose` 會在 planning artifacts 完成後 close out 成可追蹤的 handoff state，`/opsx-apply` 會把單一 Task Group 做到 implementation 與 closeout 完成後再停止，`/opsx-review` 則會先蒐集證據，再要求明確決策，最後套用使用者同意的狀態轉換。
+這張圖只呈現 commands 之間的 handoff points。實際上，`/corgi-propose` 會在 planning artifacts 完成後 close out 成可追蹤的 handoff state，`/corgi-apply` 會把單一 Task Group 做到 implementation 與 closeout 完成後再停止，`/corgi-review` 則會先蒐集證據，再要求明確決策，最後套用使用者同意的狀態轉換。
 
 ## 快速開始
 
@@ -68,7 +68,7 @@ Fetch and follow instructions from https://raw.githubusercontent.com/ricoyudog/o
 
 ### 3. 查看 bootstrap 報告
 
-Bootstrap 會在目標專案寫入 `openspec/.opsx-install-report.md`，agent 應該要摘要說明這次是 succeeded、stopped，還是 failed。
+Bootstrap 會在目標專案寫入 `openspec/.corgi-install-report.md`，agent 應該要摘要說明這次是 succeeded、stopped，還是 failed。
 
 ### 4. 在目標專案中開始使用這套工作流程
 
@@ -76,18 +76,18 @@ bootstrap 完成後，請在 OpenCode 或 Claude Code 中開啟 **目標專案**
 
 ```text
 # OpenCode
-/opsx-propose Add user authentication with JWT and refresh tokens
+/corgi-propose Add user authentication with JWT and refresh tokens
 
 # Claude Code
-/opsx:propose Add user authentication with JWT and refresh tokens
+/corgi:propose Add user authentication with JWT and refresh tokens
 ```
 
-這會先產生所有 planning artifacts，接著寫入本地的 tracked handoff state，並把它鏡像到 parent/child issues。之後，`/opsx-apply` 會執行一個 Task Group 與其 closeout，然後停下來等 `/opsx-review`；而 `/opsx-review` 會先蒐集證據，再要求明確決策，最後套用使用者同意的狀態轉換。接著請使用對應 assistant 的 command 形式：
+這會先產生所有 planning artifacts，接著寫入本地的 tracked handoff state，並把它鏡像到 parent/child issues。之後，`/corgi-apply` 會執行一個 Task Group 與其 closeout，然後停下來等 `/corgi-review`；而 `/corgi-review` 會先蒐集證據，再要求明確決策，最後套用使用者同意的狀態轉換。接著請使用對應 assistant 的 command 形式：
 
-- OpenCode：`/opsx-apply`、`/opsx-review`、`/opsx-archive`、`/opsx-explore`
-- Claude Code：`/opsx:apply`、`/opsx:review`、`/opsx:archive`、`/opsx:explore`
+- OpenCode：`/corgi-apply`、`/corgi-review`、`/corgi-archive`、`/corgi-explore`
+- Claude Code：`/corgi:apply`、`/corgi:review`、`/corgi:archive`、`/corgi:explore`
 
-> **Platform detection**：所有 `/opsx-*` commands 都會從你的 `config.yaml` 自動偵測 GitLab 或 GitHub。相同的 commands，任一平台都能使用。
+> **Platform detection**：所有 `/corgi-*` commands 都會從你的 `config.yaml` 自動偵測 GitLab 或 GitHub。相同的 commands，任一平台都能使用。
 
 ## 安裝 / 更新 / 驗證流程
 
@@ -112,10 +112,10 @@ openspec init
 
 ```text
 # OpenCode
-/opsx-install --mode fresh --path /path/to/your-project
+/corgi-install --mode fresh --path /path/to/your-project
 
 # Claude Code
-/opsx:install --mode fresh --path /path/to/your-project
+/corgi:install --mode fresh --path /path/to/your-project
 ```
 
 如果省略 flags，installer 會提示你輸入 target path、schema，以及是否啟用 worktree isolation。
@@ -130,24 +130,24 @@ installer 預設所需的使用者層級 skills 已經存在。若 bootstrap 沒
 
 installer 只會把 project-local 的 managed fileset 複製到目標專案：
 
-- `.opencode/commands/opsx-*.md`
-- `.claude/commands/opsx/*.md`
+- `.opencode/commands/corgi-*.md`
+- `.claude/commands/corgi/*.md`
 - `openspec/schemas/{selected-schema}/**`
 
 接著只修改 `openspec/config.yaml` 中由 installer 管理的 keys，並把安裝狀態記錄在：
 
-- `openspec/.opsx-install.json`
-- `openspec/.opsx-install-report.md`
-- `openspec/.opsx-backups/<timestamp>/`，當需要建立 legacy install backup 時使用
+- `openspec/.corgi-install.json`
+- `openspec/.corgi-install-report.md`
+- `openspec/.corgi-backups/<timestamp>/`，當需要建立 legacy install backup 時使用
 
 ### 4. 查看驗證報告
 
-每次 install、update，以及 verify-only 執行，都會在目標專案寫入 `openspec/.opsx-install-report.md`。
+每次 install、update，以及 verify-only 執行，都會在目標專案寫入 `openspec/.corgi-install-report.md`。
 
 繼續之前請先查看。報告會記錄：
 
 - prerequisite checks（`openspec`、`gh`、`glab`）
-- 使用者層級 skill 檢查（`~/.claude/skills/openspec-*`、`~/.config/opencode/skill/openspec-*`）
+- 使用者層級 skill 檢查（`~/.claude/skills/corgispec-*`、`~/.config/opencode/skill/corgispec-*`）
 - schema 與 `openspec/config.yaml` 檢查
 - managed fileset sync 結果
 - PASS/FAIL 狀態
@@ -194,20 +194,20 @@ installer 支援四種明確模式。
 
 ### 全新安裝
 
-當目標專案還沒有 managed files，也還沒有 `openspec/.opsx-install.json` manifest 時，請使用這個模式。
+當目標專案還沒有 managed files，也還沒有 `openspec/.corgi-install.json` manifest 時，請使用這個模式。
 
-- 需要使用者層級的 `openspec-*` skills 已經存在於 `~/.claude/skills/` 與 `~/.config/opencode/skill/`
+- 需要使用者層級的 `corgispec-*` skills 已經存在於 `~/.claude/skills/` 與 `~/.config/opencode/skill/`
 - 會把 managed fileset 複製到專案本地的 `.opencode/`、`.claude/` 與 `openspec/schemas/`
 - 以最小幅度修改 `openspec/config.yaml`
 - 詢問是否要啟用 worktree isolation
-- 寫入 `openspec/.opsx-install.json` 與 `openspec/.opsx-install-report.md`
+- 寫入 `openspec/.corgi-install.json` 與 `openspec/.corgi-install-report.md`
 
 ### 受管理更新
 
-當目標專案已經有 `openspec/.opsx-install.json` 時，請使用這個模式。
+當目標專案已經有 `openspec/.corgi-install.json` 時，請使用這個模式。
 
 ```text
-/opsx-install --mode update --path /path/to/your-project
+/corgi-install --mode update --path /path/to/your-project
 ```
 
 installer 會先比對目前的 managed files 與 manifest hashes，再進行更新。
@@ -220,7 +220,7 @@ installer 會先比對目前的 managed files 與 manifest hashes，再進行更
 
 - 印出 diff
 - 停止 update
-- 把 FAIL 狀態寫入 `openspec/.opsx-install-report.md`
+- 把 FAIL 狀態寫入 `openspec/.corgi-install-report.md`
 - 要求你先手動解決 local modifications，再重新嘗試
 
 ### 僅驗證
@@ -228,38 +228,38 @@ installer 會先比對目前的 managed files 與 manifest hashes，再進行更
 如果你想做 health check，而不對任何檔案做變更，請使用 verify-only：
 
 ```text
-/opsx-install --mode verify --path /path/to/your-project
+/corgi-install --mode verify --path /path/to/your-project
 ```
 
-Verify-only 會檢查 prerequisites、使用者層級 skills 是否存在、managed fileset integrity、schema presence，以及 `openspec/config.yaml`，然後寫入 `openspec/.opsx-install-report.md`。
+Verify-only 會檢查 prerequisites、使用者層級 skills 是否存在、managed fileset integrity、schema presence，以及 `openspec/config.yaml`，然後寫入 `openspec/.corgi-install-report.md`。
 
 ### Legacy install 遷移
 
-如果 managed files 已經存在，但目標專案沒有 `openspec/.opsx-install.json` manifest，installer 會把專案判定為 **legacy install**。
+如果 managed files 已經存在，但目標專案沒有 `openspec/.corgi-install.json` manifest，installer 會把專案判定為 **legacy install**。
 
 這種情況下，它會：
 
 - 清楚標示這是 legacy install
-- 建立 `openspec/.opsx-backups/<timestamp>/`
+- 建立 `openspec/.corgi-backups/<timestamp>/`
 - 在 migration 前要求你明確批准
 - 如果你拒絕，就會中止，而且不會覆寫任何內容
 
-若要查看涵蓋 fresh install、managed update、local modifications、verify-only、legacy install，以及 worktree prompting 的完整 agent-executable 驗證情境，請參考 `.sisyphus/plans/opsx-install-smoke-matrix.md`。
+若要查看涵蓋 fresh install、managed update、local modifications、verify-only、legacy install，以及 worktree prompting 的完整 agent-executable 驗證情境，請參考 `.sisyphus/plans/corgi-install-smoke-matrix.md`。
 
 ## 指令
 
 | 指令 | 功能說明 |
 |---------|-------------|
-| OpenCode `/opsx-install` / Claude `/opsx:install` | 僅供 legacy/manual 情境使用的 installer 路徑，用來安裝、更新或驗證 project-local 資產 |
-| OpenCode `/opsx-propose` / Claude `/opsx:propose` | 產生 planning artifacts，接著 close out 成可追蹤的 handoff state |
-| OpenCode `/opsx-apply` / Claude `/opsx:apply` | 執行一個 Task Group，同步 closeout 狀態，然後停止等待 review |
-| OpenCode `/opsx-review` / Claude `/opsx:review` | 蒐集證據、要求明確決策，然後套用使用者同意的狀態轉換 |
-| OpenCode `/opsx-archive` / Claude `/opsx:archive` | 關閉所有 issues、同步 delta specs、萃取長期知識，並完成清理 |
-| OpenCode `/opsx-explore` / Claude `/opsx:explore` | 思考夥伴，可用來探索想法、查看 issue feedback、釐清需求 |
-| OpenCode `/opsx-memory-init` / Claude `/opsx:memory-init` | 初始化三層記憶結構（`memory/` + `wiki/`），啟用跨 session 延續性 |
-| OpenCode `/opsx-migrate` / Claude `/opsx:migrate` | 匯入既有知識（docs、已歸檔 changes、vault 頁面）到 memory/wiki |
-| OpenCode `/opsx-lint` / Claude `/opsx:lint` | 驗證記憶健康度 — 新鮮度、大小上限、broken links、萃取完整性 |
-| OpenCode `/opsx-ask` / Claude `/opsx:ask` | 使用預算感知檢索回答來自 vault 的問題 |
+| OpenCode `/corgi-install` / Claude `/corgi:install` | 僅供 legacy/manual 情境使用的 installer 路徑，用來安裝、更新或驗證 project-local 資產 |
+| OpenCode `/corgi-propose` / Claude `/corgi:propose` | 產生 planning artifacts，接著 close out 成可追蹤的 handoff state |
+| OpenCode `/corgi-apply` / Claude `/corgi:apply` | 執行一個 Task Group，同步 closeout 狀態，然後停止等待 review |
+| OpenCode `/corgi-review` / Claude `/corgi:review` | 蒐集證據、要求明確決策，然後套用使用者同意的狀態轉換 |
+| OpenCode `/corgi-archive` / Claude `/corgi:archive` | 關閉所有 issues、同步 delta specs、萃取長期知識，並完成清理 |
+| OpenCode `/corgi-explore` / Claude `/corgi:explore` | 思考夥伴，可用來探索想法、查看 issue feedback、釐清需求 |
+| OpenCode `/corgi-memory-init` / Claude `/corgi:memory-init` | 初始化三層記憶結構（`memory/` + `wiki/`），啟用跨 session 延續性 |
+| OpenCode `/corgi-migrate` / Claude `/corgi:migrate` | 匯入既有知識（docs、已歸檔 changes、vault 頁面）到 memory/wiki |
+| OpenCode `/corgi-lint` / Claude `/corgi:lint` | 驗證記憶健康度 — 新鮮度、大小上限、broken links、萃取完整性 |
+| OpenCode `/corgi-ask` / Claude `/corgi:ask` | 使用預算感知檢索回答來自 vault 的問題 |
 
 ## 設定
 
@@ -276,7 +276,7 @@ isolation:
   branch_prefix: feat/  # default: feat/
 ```
 
-啟用後，OpenCode 的 `/opsx-propose` 或 Claude Code 的 `/opsx:propose` 會自動建立 worktree。後續所有 commands（`apply`、`review`、`archive`）都會在其中執行。執行 archive 時，worktree 會被清理，但 branch 會保留下來供你 merge。
+啟用後，OpenCode 的 `/corgi-propose` 或 Claude Code 的 `/corgi:propose` 會自動建立 worktree。後續所有 commands（`apply`、`review`、`archive`）都會在其中執行。執行 archive 時，worktree 會被清理，但 branch 會保留下來供你 merge。
 
 ## 跨 Session 記憶
 
@@ -303,9 +303,9 @@ flowchart LR
 | 場景 | 指令 |
 |------|------|
 | 新專案 bootstrap | 將快速開始的提示詞貼入你的 agent — 它會執行 `corgispec bootstrap` |
-| 既有專案加入記憶 | `/opsx-memory-init` |
-| 遷移既有知識庫 | `/opsx-migrate` |
-| 健康檢查 | `/opsx-lint` |
+| 既有專案加入記憶 | `/corgi-memory-init` |
+| 遷移既有知識庫 | `/corgi-migrate` |
+| 健康檢查 | `/corgi-lint` |
 
 **[完整文件：架構、生命週期、遷移、Obsidian →](docs/cross-session-memory.zh-TW.md)**
 
@@ -439,19 +439,19 @@ openspec/
 └── changes/                        # 進行中的 change 目錄
 
 .opencode/
-├── skills/openspec-*/              # Source-of-truth skill 定義
+├── skills/corgispec-*/              # Source-of-truth skill 定義
 │   ├── SKILL.md                    # AI 可讀的指令
 │   └── skill.meta.json             # 機器可讀的 metadata（tier、deps、platform）
-└── commands/opsx-*.md              # Slash command dispatch
+└── commands/corgi-*.md              # Slash command dispatch
 
 .claude/
-├── skills/openspec-*/              # Claude skill 鏡像
+├── skills/corgispec-*/              # Claude skill 鏡像
 │   ├── SKILL.md
 │   └── skill.meta.json
-└── commands/opsx/                  # Claude slash command dispatch
+└── commands/corgi/                  # Claude slash command dispatch
 
 .codex/
-└── skills/openspec-*/              # Codex skill 鏡像
+└── skills/corgispec-*/              # Codex skill 鏡像
     ├── SKILL.md
     └── skill.meta.json
 ```
@@ -490,14 +490,14 @@ node bin/ds-skills.js graph --path ../..              # Mermaid 格式
 node bin/ds-skills.js graph --path ../.. --format dot  # Graphviz 格式
 
 # 顯示特定 skill 的相依樹
-node bin/ds-skills.js check-deps --path ../.. opsx-propose
+node bin/ds-skills.js check-deps --path ../.. corgi-propose
 ```
 
 ## 文件
 
 | 文章 | 語言 | 說明 |
 |------|------|------|
-| [OpenSpec 落地 GitHub](docs/superpowers/articles/2026-04-28-openspec-github-workflow-zhihu.md) | 中文 | 我們如何把 Spec、Issue、Review 和 Git 工作流接成一條線——知乎專欄文章 |
+| [OpenSpec 落地 GitHub](docs/superpowers/articles/2026-04-28-corgispec-github-workflow-zhihu.md) | 中文 | 我們如何把 Spec、Issue、Review 和 Git 工作流接成一條線——知乎專欄文章 |
 
 ## 如何貢獻
 

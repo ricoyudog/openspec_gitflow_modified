@@ -95,7 +95,7 @@ sequenceDiagram
     Note right of A: Total: ~2900 tokens
 
     Note over H,A: ── Development ──
-    H->>A: /opsx-apply
+    H->>A: /corgi-apply
     A->>D: Read code & docs as needed
     A->>W: Read ≤2 wiki pages per question
 
@@ -142,12 +142,12 @@ Layer 3: docs/            ← Existing project documentation (untouched)
 | Word/line caps instead of token counting | Skills have no runtime — AI self-enforces during writes |
 | Separate `memory/` from `wiki/` | Core memory (always loaded) vs archival (on-demand) — from MemGPT research |
 | Compaction as agent self-maintenance | No cron/daemon available — agent compacts during normal writes |
-| Lint as standalone, not gate | Never blocks workflow; periodic health check via `/opsx-lint` |
+| Lint as standalone, not gate | Never blocks workflow; periodic health check via `/corgi-lint` |
 | Early-stop retrieval for ask | Budget-aware: max 2 wiki pages per question, stop when sufficient |
 
 ## File Size Limits
 
-Memory self-compacts via hard caps. The AI agent enforces these during writes; `/opsx-lint` validates post-hoc:
+Memory self-compacts via hard caps. The AI agent enforces these during writes; `/corgi-lint` validates post-hoc:
 
 | File | Target | Hard Cap | Overflow Action |
 |------|--------|----------|-----------------|
@@ -160,10 +160,10 @@ Memory self-compacts via hard caps. The AI agent enforces these during writes; `
 
 ### New Project
 
-Memory initializes automatically during `/opsx-install` (opt-out with `--no-memory`):
+Memory initializes automatically during `/corgi-install` (opt-out with `--no-memory`):
 
 ```text
-/opsx-install --path /path/to/project
+/corgi-install --path /path/to/project
 # Installer asks: "Initialize memory structure? (yes/no — default: yes)"
 ```
 
@@ -172,7 +172,7 @@ Memory initializes automatically during `/opsx-install` (opt-out with `--no-memo
 Add memory to a project that already uses OpenSpec:
 
 ```text
-/opsx-memory-init
+/corgi-memory-init
 ```
 
 ### Existing Project with Accumulated Knowledge
@@ -180,7 +180,7 @@ Add memory to a project that already uses OpenSpec:
 Migrate docs, archived changes, and vault pages into the memory structure:
 
 ```text
-/opsx-migrate
+/corgi-migrate
 ```
 
 The migrate skill runs 4 phases:
@@ -198,19 +198,19 @@ All memory files are valid markdown with `[[wikilinks]]`. If your project is als
 - `wiki/` renders as a navigable knowledge graph
 - `memory/` shows session state at a glance
 - Humans can browse, search, and even edit memory files directly
-- `/opsx-ask` answers questions created as pending .md files in the vault
+- `/corgi-ask` answers questions created as pending .md files in the vault
 
 ## Related Commands
 
 | Command | Purpose |
 |---------|---------|
-| `/opsx-memory-init` | Initialize the 3-layer memory structure |
-| `/opsx-migrate` | Import existing knowledge into memory/wiki |
-| `/opsx-lint` | Validate memory health (11 checks) |
-| `/opsx-ask` | Answer questions using budget-aware retrieval |
+| `/corgi-memory-init` | Initialize the 3-layer memory structure |
+| `/corgi-migrate` | Import existing knowledge into memory/wiki |
+| `/corgi-lint` | Validate memory health (11 checks) |
+| `/corgi-ask` | Answer questions using budget-aware retrieval |
 
 ## Further Reading
 
-- [Design document](../openspec/changes/openspec-llm-memory/design.md) — architecture decisions, risks, trade-offs
-- [Proposal](../openspec/changes/openspec-llm-memory/proposal.md) — motivation and scope
+- [Design document](../openspec/changes/corgispec-llm-memory/design.md) — architecture decisions, risks, trade-offs
+- [Proposal](../openspec/changes/corgispec-llm-memory/proposal.md) — motivation and scope
 - Research references: MemGPT, GenericAgent, xMemory

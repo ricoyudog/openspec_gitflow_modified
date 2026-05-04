@@ -19,11 +19,11 @@ The system SHALL answer questions written in `wiki/questions/*.md` files by retr
 The system SHALL support scanning all `wiki/questions/*.md` files for `status: pending` and presenting them as a list for sequential processing.
 
 #### Scenario: Multiple pending questions
-- **WHEN** user runs `openspec-ask --pending` and 3 question files have `status: pending`
+- **WHEN** user runs `corgispec-ask --pending` and 3 question files have `status: pending`
 - **THEN** system lists all 3 questions and processes them in order, writing answers to each
 
 #### Scenario: No pending questions
-- **WHEN** user runs `openspec-ask --pending` and no question files have `status: pending`
+- **WHEN** user runs `corgispec-ask --pending` and no question files have `status: pending`
 - **THEN** system reports "No pending questions found" and exits
 
 ### Requirement: Knowledge writeback

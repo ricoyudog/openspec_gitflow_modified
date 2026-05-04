@@ -52,20 +52,20 @@ describe("bundle-assets", () => {
 
     expectBundledFile(
       bundleRoot,
-      "commands/opencode/opsx-install.md",
-      resolve(REPO_ROOT, ".opencode/commands/opsx-install.md")
+      "commands/opencode/corgi-install.md",
+      resolve(REPO_ROOT, ".opencode/commands/corgi-install.md")
     );
     expectBundledFile(
       bundleRoot,
-      "commands/claude/opsx/install.md",
-      resolve(REPO_ROOT, ".claude/commands/opsx/install.md")
+      "commands/claude/corgi/install.md",
+      resolve(REPO_ROOT, ".claude/commands/corgi/install.md")
     );
     expectBundledFile(
       bundleRoot,
       "memory-init/templates/session-memory-protocol.md",
       resolve(
         REPO_ROOT,
-        ".opencode/skills/openspec-memory-init/templates/session-memory-protocol.md"
+        ".opencode/skills/corgispec-memory-init/templates/session-memory-protocol.md"
       )
     );
     expectBundledFile(
@@ -73,13 +73,13 @@ describe("bundle-assets", () => {
       "memory-init/templates/memory/session-bridge.md",
       resolve(
         REPO_ROOT,
-        ".opencode/skills/openspec-memory-init/templates/memory/session-bridge.md"
+        ".opencode/skills/corgispec-memory-init/templates/memory/session-bridge.md"
       )
     );
     expectBundledFile(
       bundleRoot,
       "memory-init/templates/wiki/hot.md",
-      resolve(REPO_ROOT, ".opencode/skills/openspec-memory-init/templates/wiki/hot.md")
+      resolve(REPO_ROOT, ".opencode/skills/corgispec-memory-init/templates/wiki/hot.md")
     );
 
     expect(existsSync(resolve(ASSETS_ROOT, "schemas/skill-meta.schema.json"))).toBe(true);
@@ -139,20 +139,20 @@ describe("install asset helpers", () => {
 
   it("classifies config plus managed files without manifest as legacy", () => {
     writeFile(resolve(caseDir, "openspec/config.yaml"), "schema: gitlab-tracked\n");
-    writeFile(resolve(caseDir, ".opencode/commands/opsx-install.md"), "# existing\n");
+    writeFile(resolve(caseDir, ".opencode/commands/corgi-install.md"), "# existing\n");
 
     const state = classifyTargetState(caseDir);
 
     expect(state.kind).toBe("legacy");
     expect(state.hasConfig).toBe(true);
     expect(state.hasManifest).toBe(false);
-    expect(state.managedFiles).toContain(".opencode/commands/opsx-install.md");
+    expect(state.managedFiles).toContain(".opencode/commands/corgi-install.md");
   });
 
   it("classifies manifest without config as inconsistent", () => {
     writeFile(
       resolve(caseDir, "openspec/install-manifest.yaml"),
-      "version: 1\nmanagedFiles:\n  - path: .opencode/commands/opsx-install.md\n"
+      "version: 1\nmanagedFiles:\n  - path: .opencode/commands/corgi-install.md\n"
     );
 
     const state = classifyTargetState(caseDir);
@@ -163,14 +163,14 @@ describe("install asset helpers", () => {
   });
 
   it("classifies missing config with legacy-managed files as inconsistent", () => {
-    writeFile(resolve(caseDir, ".opencode/commands/opsx-install.md"), "# existing\n");
+    writeFile(resolve(caseDir, ".opencode/commands/corgi-install.md"), "# existing\n");
 
     const state = classifyTargetState(caseDir);
 
     expect(state.kind satisfies TargetStateKind).toBe("inconsistent");
     expect(state.hasConfig).toBe(false);
     expect(state.hasManifest).toBe(false);
-    expect(state.managedFiles).toContain(".opencode/commands/opsx-install.md");
+    expect(state.managedFiles).toContain(".opencode/commands/corgi-install.md");
   });
 
   it("patches only installer-owned config fields while preserving context and rules", () => {
@@ -215,8 +215,8 @@ isolation:
 
   it("enumerates managed project files from a provided assets root", () => {
     const assetsRoot = resolve(caseDir, "assets");
-    writeFile(resolve(assetsRoot, "commands/opencode/opsx-install.md"), "# cmd\n");
-    writeFile(resolve(assetsRoot, "commands/claude/opsx/install.md"), "# claude\n");
+    writeFile(resolve(assetsRoot, "commands/opencode/corgi-install.md"), "# cmd\n");
+    writeFile(resolve(assetsRoot, "commands/claude/corgi/install.md"), "# claude\n");
     writeFile(resolve(assetsRoot, "schemas/github-tracked/schema.yaml"), "name: schema\n");
     writeFile(resolve(assetsRoot, "schemas/github-tracked/templates/spec.md"), "# spec\n");
     writeFile(resolve(assetsRoot, "memory-init/templates/wiki/hot.md"), "# hot\n");
@@ -225,8 +225,8 @@ isolation:
     const relativeFiles = relativeManagedFiles(caseDir, files).sort();
 
     expect(relativeFiles).toEqual([
-      "assets/commands/claude/opsx/install.md",
-      "assets/commands/opencode/opsx-install.md",
+      "assets/commands/claude/corgi/install.md",
+      "assets/commands/opencode/corgi-install.md",
       "assets/schemas/github-tracked/schema.yaml",
       "assets/schemas/github-tracked/templates/spec.md",
     ]);
@@ -237,12 +237,12 @@ isolation:
     writeFile(resolve(caseDir, "openspec/config.yaml"), "schema: github-tracked\n");
     writeFile(
       resolve(caseDir, "openspec/install-manifest.yaml"),
-      "version: 1\nmanagedFiles:\n  - path: .opencode\\commands\\opsx-install.md\n"
+      "version: 1\nmanagedFiles:\n  - path: .opencode\\commands\\corgi-install.md\n"
     );
 
     const state = classifyTargetState(caseDir);
 
     expect(state.kind satisfies TargetStateKind).toBe("managed-update");
-    expect(state.managedFiles).toEqual([".opencode/commands/opsx-install.md"]);
+    expect(state.managedFiles).toEqual([".opencode/commands/corgi-install.md"]);
   });
 });

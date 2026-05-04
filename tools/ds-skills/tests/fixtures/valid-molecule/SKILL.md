@@ -1,5 +1,5 @@
 ---
-name: opsx-propose
+name: corgi-propose
 description: Generate planning artifacts and create tracked issues
 ---
 

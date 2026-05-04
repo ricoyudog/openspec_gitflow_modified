@@ -19,10 +19,10 @@ describe("loadSkill", () => {
 
   it("loads a valid molecule with dependencies", async () => {
     const skill = await loadSkill(path.join(fixturesDir, "valid-molecule"));
-    assert.equal(skill.meta.slug, "opsx-propose");
+    assert.equal(skill.meta.slug, "corgi-propose");
     assert.equal(skill.meta.tier, "molecule");
     assert.equal(skill.meta.depends_on.length, 6);
-    assert.equal(skill.frontmatter.name, "opsx-propose");
+    assert.equal(skill.frontmatter.name, "corgi-propose");
   });
 
   it("returns error for directory missing skill.meta.json", async () => {
@@ -40,6 +40,6 @@ describe("discoverSkills", () => {
       .filter((s) => s.meta)
       .map((s) => s.meta.slug);
     assert.ok(slugs.includes("resolve-config"));
-    assert.ok(slugs.includes("opsx-propose"));
+    assert.ok(slugs.includes("corgi-propose"));
   });
 });

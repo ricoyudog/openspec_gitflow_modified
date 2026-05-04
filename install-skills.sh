@@ -14,8 +14,8 @@ Usage: ./install-skills.sh [--dry-run] [--help]
 Install this repo's user-level skills for Claude Code and OpenCode.
 
 What gets installed:
-  - .claude/skills/openspec-*        -> ~/.claude/skills/
-  - .opencode/skills/openspec-*      -> ~/.config/opencode/skill/
+  - .claude/skills/corgispec-*        -> ~/.claude/skills/
+  - .opencode/skills/corgispec-*      -> ~/.config/opencode/skill/
 
 Options:
   --dry-run   Print planned operations without copying files
@@ -86,7 +86,7 @@ log "Repo root: $SCRIPT_DIR"
 log "Claude target: $CLAUDE_DIR"
 log "OpenCode target: $OPENCODE_DIR"
 
-install_glob "$SCRIPT_DIR/.claude/skills/openspec-*" "$CLAUDE_DIR"
-install_glob "$SCRIPT_DIR/.opencode/skills/openspec-*" "$OPENCODE_DIR"
+install_glob "$SCRIPT_DIR/.claude/skills/corgispec-*" "$CLAUDE_DIR"
+install_glob "$SCRIPT_DIR/.opencode/skills/corgispec-*" "$OPENCODE_DIR"
 
 log "Done. User-level skills are ready for Claude Code and OpenCode."

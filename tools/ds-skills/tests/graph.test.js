@@ -6,13 +6,13 @@ describe("generateMermaid", () => {
   it("produces valid mermaid graph syntax", () => {
     const skills = [
       { meta: { slug: "resolve-config", tier: "atom", depends_on: [], platform: "universal" } },
-      { meta: { slug: "opsx-propose", tier: "molecule", depends_on: ["resolve-config"], platform: "universal" } },
+      { meta: { slug: "corgi-propose", tier: "molecule", depends_on: ["resolve-config"], platform: "universal" } },
     ];
     const output = generateMermaid(skills);
     assert.ok(output.includes("graph TD"));
-    assert.ok(output.includes("opsx-propose --> resolve-config"));
+    assert.ok(output.includes("corgi-propose --> resolve-config"));
     assert.ok(output.includes("resolve-config"));
-    assert.ok(output.includes("opsx-propose"));
+    assert.ok(output.includes("corgi-propose"));
   });
 
   it("handles skills with no dependencies", () => {
@@ -29,11 +29,11 @@ describe("generateDot", () => {
   it("produces valid dot syntax", () => {
     const skills = [
       { meta: { slug: "resolve-config", tier: "atom", depends_on: [], platform: "universal" } },
-      { meta: { slug: "opsx-propose", tier: "molecule", depends_on: ["resolve-config"], platform: "universal" } },
+      { meta: { slug: "corgi-propose", tier: "molecule", depends_on: ["resolve-config"], platform: "universal" } },
     ];
     const output = generateDot(skills);
     assert.ok(output.includes("digraph"));
-    assert.ok(output.includes('"opsx-propose" -> "resolve-config"'));
+    assert.ok(output.includes('"corgi-propose" -> "resolve-config"'));
   });
 });
 
@@ -42,10 +42,10 @@ describe("buildDepTree", () => {
     const skills = [
       { meta: { slug: "resolve-config", tier: "atom", depends_on: [], platform: "universal" } },
       { meta: { slug: "parse-tasks", tier: "atom", depends_on: [], platform: "universal" } },
-      { meta: { slug: "opsx-propose", tier: "molecule", depends_on: ["resolve-config", "parse-tasks"], platform: "universal" } },
+      { meta: { slug: "corgi-propose", tier: "molecule", depends_on: ["resolve-config", "parse-tasks"], platform: "universal" } },
     ];
-    const tree = buildDepTree(skills, "opsx-propose");
-    assert.deepStrictEqual(tree.slug, "opsx-propose");
+    const tree = buildDepTree(skills, "corgi-propose");
+    assert.deepStrictEqual(tree.slug, "corgi-propose");
     assert.equal(tree.children.length, 2);
     assert.ok(tree.children.some((c) => c.slug === "resolve-config"));
     assert.ok(tree.children.some((c) => c.slug === "parse-tasks"));

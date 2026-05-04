@@ -17,7 +17,7 @@ This design also defines how to borrow the strongest parts of `agent-skills`—e
 This design covers:
 
 - separating evidence collection from human review decisions
-- introducing `/opsx-verify` and `/opsx:verify`
+- introducing `/corgi-verify` and `/corgi:verify`
 - defining local canonical `verify` state and report outputs
 - improving command routing accuracy with explicit routing rules
 - formalizing browser-aware verification for UI-facing work
@@ -240,21 +240,21 @@ This should be treated as a deliberate second-stage migration, not bundled into 
 
 Wrappers remain shallow.
 
-### `/opsx-apply` / `/opsx:apply`
+### `/corgi-apply` / `/corgi:apply`
 
 - preserve config and isolation checks
 - dispatch by schema
 - verify postconditions around one-group execution and closeout
 - end with verify handoff expectations instead of review handoff expectations
 
-### `/opsx-verify` / `/opsx:verify`
+### `/corgi-verify` / `/corgi:verify`
 
 - preserve config and isolation checks
 - dispatch by schema
 - enforce verify preconditions
 - verify postconditions such as: verify report exists, required evidence exists, UI evidence exists when required
 
-### `/opsx-review` / `/opsx:review`
+### `/corgi-review` / `/corgi:review`
 
 - preserve config and isolation checks
 - require verify report existence before proceeding

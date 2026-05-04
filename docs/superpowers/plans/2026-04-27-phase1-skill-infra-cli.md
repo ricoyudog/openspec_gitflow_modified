@@ -8,7 +8,7 @@
 
 **Tech Stack:** Node.js (ESM), commander, ajv, node:test, node:assert
 
-**Design Spec:** `docs/superpowers/specs/2026-04-27-openspec-skill-hierarchy-refactor-design.md`
+**Design Spec:** `docs/superpowers/specs/2026-04-27-corgispec-skill-hierarchy-refactor-design.md`
 
 ---
 
@@ -47,9 +47,9 @@ tools/ds-skills/
     ├── graph.test.js
     └── list.test.js
 
-.opencode/skills/openspec-*/skill.meta.json   # 11 new files (one per existing skill)
-.claude/skills/openspec-*/skill.meta.json      # 11 mirrors
-.codex/skills/openspec-*/skill.meta.json       # 10 mirrors (+1 new: openspec-install)
+.opencode/skills/corgispec-*/skill.meta.json   # 11 new files (one per existing skill)
+.claude/skills/corgispec-*/skill.meta.json      # 11 mirrors
+.codex/skills/corgispec-*/skill.meta.json       # 10 mirrors (+1 new: corgispec-install)
 ```
 
 ---
@@ -290,7 +290,7 @@ Resolve OpenSpec project configuration.
 `tests/fixtures/valid-molecule/SKILL.md`:
 ```markdown
 ---
-name: opsx-propose
+name: corgi-propose
 description: Generate planning artifacts and create tracked issues
 ---
 
@@ -300,16 +300,16 @@ Propose a new change with full artifact pipeline.
 `tests/fixtures/valid-molecule/skill.meta.json`:
 ```json
 {
-  "slug": "opsx-propose",
+  "slug": "corgi-propose",
   "tier": "molecule",
   "version": "1.0.0",
   "description": "Generate planning artifacts and create tracked issues",
-  "depends_on": ["resolve-config", "resolve-worktree", "openspec-cli-runner", "parse-tasks", "sync-issue-gh", "sync-issue-gl"],
+  "depends_on": ["resolve-config", "resolve-worktree", "corgispec-cli-runner", "parse-tasks", "sync-issue-gh", "sync-issue-gl"],
   "platform": "universal",
   "tags": ["lifecycle", "propose"],
   "installation": {
     "targets": ["opencode", "claude", "codex"],
-    "base_path": "molecules/opsx-propose"
+    "base_path": "molecules/corgi-propose"
   }
 }
 ```
@@ -351,10 +351,10 @@ describe("loadSkill", () => {
 
   it("loads a valid molecule with dependencies", async () => {
     const skill = await loadSkill(path.join(fixturesDir, "valid-molecule"));
-    assert.equal(skill.meta.slug, "opsx-propose");
+    assert.equal(skill.meta.slug, "corgi-propose");
     assert.equal(skill.meta.tier, "molecule");
     assert.equal(skill.meta.depends_on.length, 6);
-    assert.equal(skill.frontmatter.name, "opsx-propose");
+    assert.equal(skill.frontmatter.name, "corgi-propose");
   });
 
   it("returns error for directory missing skill.meta.json", async () => {
@@ -372,7 +372,7 @@ describe("discoverSkills", () => {
       .filter((s) => s.meta)
       .map((s) => s.meta.slug);
     assert.ok(slugs.includes("resolve-config"));
-    assert.ok(slugs.includes("opsx-propose"));
+    assert.ok(slugs.includes("corgi-propose"));
   });
 });
 ```
@@ -634,7 +634,7 @@ describe("validateConstraints (cross-skill rules)", () => {
   });
 
   it("reports error when molecule depends on non-atom", async () => {
-    // opsx-propose depends on resolve-config (atom) — but resolve-config
+    // corgi-propose depends on resolve-config (atom) — but resolve-config
     // is the only atom in fixtures, other deps don't exist. This should
     // produce "depends on unknown skill" errors.
     const skills = await discoverSkills(fixturesDir);
@@ -1064,14 +1064,14 @@ describe("generateMermaid", () => {
   it("produces valid mermaid graph syntax", () => {
     const skills = [
       { meta: { slug: "resolve-config", tier: "atom", depends_on: [], platform: "universal" } },
-      { meta: { slug: "opsx-propose", tier: "molecule", depends_on: ["resolve-config"], platform: "universal" } },
+      { meta: { slug: "corgi-propose", tier: "molecule", depends_on: ["resolve-config"], platform: "universal" } },
     ];
     const output = generateMermaid(skills);
     assert.ok(output.includes("graph TD"));
-    assert.ok(output.includes("opsx-propose --> resolve-config"));
+    assert.ok(output.includes("corgi-propose --> resolve-config"));
     // Atoms and molecules should have different styles
     assert.ok(output.includes("resolve-config"));
-    assert.ok(output.includes("opsx-propose"));
+    assert.ok(output.includes("corgi-propose"));
   });
 
   it("handles skills with no dependencies", () => {
@@ -1088,11 +1088,11 @@ describe("generateDot", () => {
   it("produces valid dot syntax", () => {
     const skills = [
       { meta: { slug: "resolve-config", tier: "atom", depends_on: [], platform: "universal" } },
-      { meta: { slug: "opsx-propose", tier: "molecule", depends_on: ["resolve-config"], platform: "universal" } },
+      { meta: { slug: "corgi-propose", tier: "molecule", depends_on: ["resolve-config"], platform: "universal" } },
     ];
     const output = generateDot(skills);
     assert.ok(output.includes("digraph"));
-    assert.ok(output.includes('"opsx-propose" -> "resolve-config"'));
+    assert.ok(output.includes('"corgi-propose" -> "resolve-config"'));
   });
 });
 
@@ -1101,10 +1101,10 @@ describe("buildDepTree", () => {
     const skills = [
       { meta: { slug: "resolve-config", tier: "atom", depends_on: [], platform: "universal" } },
       { meta: { slug: "parse-tasks", tier: "atom", depends_on: [], platform: "universal" } },
-      { meta: { slug: "opsx-propose", tier: "molecule", depends_on: ["resolve-config", "parse-tasks"], platform: "universal" } },
+      { meta: { slug: "corgi-propose", tier: "molecule", depends_on: ["resolve-config", "parse-tasks"], platform: "universal" } },
     ];
-    const tree = buildDepTree(skills, "opsx-propose");
-    assert.deepStrictEqual(tree.slug, "opsx-propose");
+    const tree = buildDepTree(skills, "corgi-propose");
+    assert.deepStrictEqual(tree.slug, "corgi-propose");
     assert.equal(tree.children.length, 2);
     assert.ok(tree.children.some((c) => c.slug === "resolve-config"));
     assert.ok(tree.children.some((c) => c.slug === "parse-tasks"));
@@ -1328,18 +1328,18 @@ git commit -m "feat(ds-skills): implement graph and check-deps commands"
 ### Task 7: Add skill.meta.json to All 11 Existing Skills
 
 **Files:**
-- Create: 11× `.opencode/skills/openspec-*/skill.meta.json`
-- Create: 11× `.claude/skills/openspec-*/skill.meta.json`
-- Create: 10× `.codex/skills/openspec-*/skill.meta.json` (no openspec-install in codex yet)
+- Create: 11× `.opencode/skills/corgispec-*/skill.meta.json`
+- Create: 11× `.claude/skills/corgispec-*/skill.meta.json`
+- Create: 10× `.codex/skills/corgispec-*/skill.meta.json` (no corgispec-install in codex yet)
 
 Per the design spec, all existing skills are tagged `tier: "molecule"` with `depends_on: []` in Phase 1. This is a transitional state — Phase 2 will add atoms and Phase 3 will rewrite dependencies.
 
-- [ ] **Step 1: Create skill.meta.json for openspec-install**
+- [ ] **Step 1: Create skill.meta.json for corgispec-install**
 
-Write to `.opencode/skills/openspec-install/skill.meta.json`:
+Write to `.opencode/skills/corgispec-install/skill.meta.json`:
 ```json
 {
-  "slug": "openspec-install",
+  "slug": "corgispec-install",
   "tier": "molecule",
   "version": "1.0.0",
   "description": "Install, update, or verify project-local OpenSpec GitFlow assets in a target project",
@@ -1348,19 +1348,19 @@ Write to `.opencode/skills/openspec-install/skill.meta.json`:
   "tags": ["lifecycle", "install"],
   "installation": {
     "targets": ["opencode", "claude", "codex"],
-    "base_path": "openspec-install"
+    "base_path": "corgispec-install"
   }
 }
 ```
 
-Copy to `.claude/skills/openspec-install/skill.meta.json` and `.codex/skills/openspec-install/skill.meta.json` (identical content).
+Copy to `.claude/skills/corgispec-install/skill.meta.json` and `.codex/skills/corgispec-install/skill.meta.json` (identical content).
 
-- [ ] **Step 2: Create skill.meta.json for openspec-explore**
+- [ ] **Step 2: Create skill.meta.json for corgispec-explore**
 
-Write to `.opencode/skills/openspec-explore/skill.meta.json`:
+Write to `.opencode/skills/corgispec-explore/skill.meta.json`:
 ```json
 {
-  "slug": "openspec-explore",
+  "slug": "corgispec-explore",
   "tier": "molecule",
   "version": "1.0.0",
   "description": "Enter explore mode for investigating problems and clarifying requirements (GitLab)",
@@ -1369,19 +1369,19 @@ Write to `.opencode/skills/openspec-explore/skill.meta.json`:
   "tags": ["lifecycle", "explore"],
   "installation": {
     "targets": ["opencode", "claude", "codex"],
-    "base_path": "openspec-explore"
+    "base_path": "corgispec-explore"
   }
 }
 ```
 
-Copy to `.claude/skills/openspec-explore/` and `.codex/skills/openspec-explore/`.
+Copy to `.claude/skills/corgispec-explore/` and `.codex/skills/corgispec-explore/`.
 
-- [ ] **Step 3: Create skill.meta.json for openspec-gh-explore**
+- [ ] **Step 3: Create skill.meta.json for corgispec-gh-explore**
 
-Write to `.opencode/skills/openspec-gh-explore/skill.meta.json`:
+Write to `.opencode/skills/corgispec-gh-explore/skill.meta.json`:
 ```json
 {
-  "slug": "openspec-gh-explore",
+  "slug": "corgispec-gh-explore",
   "tier": "molecule",
   "version": "1.0.0",
   "description": "Enter explore mode for investigating problems and clarifying requirements (GitHub)",
@@ -1390,19 +1390,19 @@ Write to `.opencode/skills/openspec-gh-explore/skill.meta.json`:
   "tags": ["lifecycle", "explore"],
   "installation": {
     "targets": ["opencode", "claude", "codex"],
-    "base_path": "openspec-gh-explore"
+    "base_path": "corgispec-gh-explore"
   }
 }
 ```
 
-Copy to `.claude/skills/openspec-gh-explore/` and `.codex/skills/openspec-gh-explore/`.
+Copy to `.claude/skills/corgispec-gh-explore/` and `.codex/skills/corgispec-gh-explore/`.
 
-- [ ] **Step 4: Create skill.meta.json for openspec-propose**
+- [ ] **Step 4: Create skill.meta.json for corgispec-propose**
 
-Write to `.opencode/skills/openspec-propose/skill.meta.json`:
+Write to `.opencode/skills/corgispec-propose/skill.meta.json`:
 ```json
 {
-  "slug": "openspec-propose",
+  "slug": "corgispec-propose",
   "tier": "molecule",
   "version": "1.0.0",
   "description": "Generate planning artifacts and create tracked GitLab issues",
@@ -1411,19 +1411,19 @@ Write to `.opencode/skills/openspec-propose/skill.meta.json`:
   "tags": ["lifecycle", "propose"],
   "installation": {
     "targets": ["opencode", "claude", "codex"],
-    "base_path": "openspec-propose"
+    "base_path": "corgispec-propose"
   }
 }
 ```
 
-Copy to `.claude/skills/openspec-propose/` and `.codex/skills/openspec-propose/`.
+Copy to `.claude/skills/corgispec-propose/` and `.codex/skills/corgispec-propose/`.
 
-- [ ] **Step 5: Create skill.meta.json for openspec-gh-propose**
+- [ ] **Step 5: Create skill.meta.json for corgispec-gh-propose**
 
-Write to `.opencode/skills/openspec-gh-propose/skill.meta.json`:
+Write to `.opencode/skills/corgispec-gh-propose/skill.meta.json`:
 ```json
 {
-  "slug": "openspec-gh-propose",
+  "slug": "corgispec-gh-propose",
   "tier": "molecule",
   "version": "1.0.0",
   "description": "Generate planning artifacts and create tracked GitHub issues",
@@ -1432,19 +1432,19 @@ Write to `.opencode/skills/openspec-gh-propose/skill.meta.json`:
   "tags": ["lifecycle", "propose"],
   "installation": {
     "targets": ["opencode", "claude", "codex"],
-    "base_path": "openspec-gh-propose"
+    "base_path": "corgispec-gh-propose"
   }
 }
 ```
 
-Copy to `.claude/skills/openspec-gh-propose/` and `.codex/skills/openspec-gh-propose/`.
+Copy to `.claude/skills/corgispec-gh-propose/` and `.codex/skills/corgispec-gh-propose/`.
 
-- [ ] **Step 6: Create skill.meta.json for openspec-apply-change**
+- [ ] **Step 6: Create skill.meta.json for corgispec-apply-change**
 
-Write to `.opencode/skills/openspec-apply-change/skill.meta.json`:
+Write to `.opencode/skills/corgispec-apply-change/skill.meta.json`:
 ```json
 {
-  "slug": "openspec-apply-change",
+  "slug": "corgispec-apply-change",
   "tier": "molecule",
   "version": "1.0.0",
   "description": "Execute one Task Group checkpoint with closeout and issue sync (GitLab)",
@@ -1453,19 +1453,19 @@ Write to `.opencode/skills/openspec-apply-change/skill.meta.json`:
   "tags": ["lifecycle", "apply"],
   "installation": {
     "targets": ["opencode", "claude", "codex"],
-    "base_path": "openspec-apply-change"
+    "base_path": "corgispec-apply-change"
   }
 }
 ```
 
-Copy to `.claude/skills/openspec-apply-change/` and `.codex/skills/openspec-apply-change/`.
+Copy to `.claude/skills/corgispec-apply-change/` and `.codex/skills/corgispec-apply-change/`.
 
-- [ ] **Step 7: Create skill.meta.json for openspec-gh-apply**
+- [ ] **Step 7: Create skill.meta.json for corgispec-gh-apply**
 
-Write to `.opencode/skills/openspec-gh-apply/skill.meta.json`:
+Write to `.opencode/skills/corgispec-gh-apply/skill.meta.json`:
 ```json
 {
-  "slug": "openspec-gh-apply",
+  "slug": "corgispec-gh-apply",
   "tier": "molecule",
   "version": "1.0.0",
   "description": "Execute one Task Group checkpoint with closeout and issue sync (GitHub)",
@@ -1474,19 +1474,19 @@ Write to `.opencode/skills/openspec-gh-apply/skill.meta.json`:
   "tags": ["lifecycle", "apply"],
   "installation": {
     "targets": ["opencode", "claude", "codex"],
-    "base_path": "openspec-gh-apply"
+    "base_path": "corgispec-gh-apply"
   }
 }
 ```
 
-Copy to `.claude/skills/openspec-gh-apply/` and `.codex/skills/openspec-gh-apply/`.
+Copy to `.claude/skills/corgispec-gh-apply/` and `.codex/skills/corgispec-gh-apply/`.
 
-- [ ] **Step 8: Create skill.meta.json for openspec-review**
+- [ ] **Step 8: Create skill.meta.json for corgispec-review**
 
-Write to `.opencode/skills/openspec-review/skill.meta.json`:
+Write to `.opencode/skills/corgispec-review/skill.meta.json`:
 ```json
 {
-  "slug": "openspec-review",
+  "slug": "corgispec-review",
   "tier": "molecule",
   "version": "1.0.0",
   "description": "Quality checks and human review gate for completed Task Groups (GitLab)",
@@ -1495,19 +1495,19 @@ Write to `.opencode/skills/openspec-review/skill.meta.json`:
   "tags": ["lifecycle", "review"],
   "installation": {
     "targets": ["opencode", "claude", "codex"],
-    "base_path": "openspec-review"
+    "base_path": "corgispec-review"
   }
 }
 ```
 
-Copy to `.claude/skills/openspec-review/` and `.codex/skills/openspec-review/`.
+Copy to `.claude/skills/corgispec-review/` and `.codex/skills/corgispec-review/`.
 
-- [ ] **Step 9: Create skill.meta.json for openspec-gh-review**
+- [ ] **Step 9: Create skill.meta.json for corgispec-gh-review**
 
-Write to `.opencode/skills/openspec-gh-review/skill.meta.json`:
+Write to `.opencode/skills/corgispec-gh-review/skill.meta.json`:
 ```json
 {
-  "slug": "openspec-gh-review",
+  "slug": "corgispec-gh-review",
   "tier": "molecule",
   "version": "1.0.0",
   "description": "Quality checks and human review gate for completed Task Groups (GitHub)",
@@ -1516,19 +1516,19 @@ Write to `.opencode/skills/openspec-gh-review/skill.meta.json`:
   "tags": ["lifecycle", "review"],
   "installation": {
     "targets": ["opencode", "claude", "codex"],
-    "base_path": "openspec-gh-review"
+    "base_path": "corgispec-gh-review"
   }
 }
 ```
 
-Copy to `.claude/skills/openspec-gh-review/` and `.codex/skills/openspec-gh-review/`.
+Copy to `.claude/skills/corgispec-gh-review/` and `.codex/skills/corgispec-gh-review/`.
 
-- [ ] **Step 10: Create skill.meta.json for openspec-archive-change**
+- [ ] **Step 10: Create skill.meta.json for corgispec-archive-change**
 
-Write to `.opencode/skills/openspec-archive-change/skill.meta.json`:
+Write to `.opencode/skills/corgispec-archive-change/skill.meta.json`:
 ```json
 {
-  "slug": "openspec-archive-change",
+  "slug": "corgispec-archive-change",
   "tier": "molecule",
   "version": "1.0.0",
   "description": "Close issues, sync delta specs, and archive completed change (GitLab)",
@@ -1537,19 +1537,19 @@ Write to `.opencode/skills/openspec-archive-change/skill.meta.json`:
   "tags": ["lifecycle", "archive"],
   "installation": {
     "targets": ["opencode", "claude", "codex"],
-    "base_path": "openspec-archive-change"
+    "base_path": "corgispec-archive-change"
   }
 }
 ```
 
-Copy to `.claude/skills/openspec-archive-change/` and `.codex/skills/openspec-archive-change/`.
+Copy to `.claude/skills/corgispec-archive-change/` and `.codex/skills/corgispec-archive-change/`.
 
-- [ ] **Step 11: Create skill.meta.json for openspec-gh-archive**
+- [ ] **Step 11: Create skill.meta.json for corgispec-gh-archive**
 
-Write to `.opencode/skills/openspec-gh-archive/skill.meta.json`:
+Write to `.opencode/skills/corgispec-gh-archive/skill.meta.json`:
 ```json
 {
-  "slug": "openspec-gh-archive",
+  "slug": "corgispec-gh-archive",
   "tier": "molecule",
   "version": "1.0.0",
   "description": "Close issues, sync delta specs, and archive completed change (GitHub)",
@@ -1558,17 +1558,17 @@ Write to `.opencode/skills/openspec-gh-archive/skill.meta.json`:
   "tags": ["lifecycle", "archive"],
   "installation": {
     "targets": ["opencode", "claude", "codex"],
-    "base_path": "openspec-gh-archive"
+    "base_path": "corgispec-gh-archive"
   }
 }
 ```
 
-Copy to `.claude/skills/openspec-gh-archive/` and `.codex/skills/openspec-gh-archive/`.
+Copy to `.claude/skills/corgispec-gh-archive/` and `.codex/skills/corgispec-gh-archive/`.
 
 - [ ] **Step 12: Commit all skill.meta.json files**
 
 ```bash
-git add .opencode/skills/openspec-*/skill.meta.json .claude/skills/openspec-*/skill.meta.json .codex/skills/openspec-*/skill.meta.json
+git add .opencode/skills/corgispec-*/skill.meta.json .claude/skills/corgispec-*/skill.meta.json .codex/skills/corgispec-*/skill.meta.json
 git commit -m "feat(ds-skills): add skill.meta.json to all 11 existing OpenSpec skills"
 ```
 
@@ -1604,7 +1604,7 @@ Expected: Graphviz dot output with 11 nodes, no edges.
 Run: `cd tools/ds-skills && npm test`
 Expected: All tests pass (loader: 4, validate: 5, list: 4, graph: 4 = 17 total).
 
-- [ ] **Step 6: Verify existing /opsx-* workflow is unaffected**
+- [ ] **Step 6: Verify existing /corgi-* workflow is unaffected**
 
 Check: No SKILL.md files were modified. Only new `skill.meta.json` files were added. Run:
 ```bash
@@ -1631,10 +1631,10 @@ All of the following must be true:
 - [ ] `ds-skills graph --path .` produces valid mermaid output
 - [ ] `npm test` passes all 17+ unit tests
 - [ ] No existing SKILL.md files were modified
-- [ ] All 11 `.opencode/skills/openspec-*/skill.meta.json` exist
-- [ ] All 11 `.claude/skills/openspec-*/skill.meta.json` exist
-- [ ] All 10+1 `.codex/skills/openspec-*/skill.meta.json` exist
-- [ ] `/opsx-*` commands still work (manual spot-check)
+- [ ] All 11 `.opencode/skills/corgispec-*/skill.meta.json` exist
+- [ ] All 11 `.claude/skills/corgispec-*/skill.meta.json` exist
+- [ ] All 10+1 `.codex/skills/corgispec-*/skill.meta.json` exist
+- [ ] `/corgi-*` commands still work (manual spot-check)
 
 ## Next Plans
 

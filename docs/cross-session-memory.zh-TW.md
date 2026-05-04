@@ -95,7 +95,7 @@ sequenceDiagram
     Note right of A: 合計：~2900 tokens
 
     Note over H,A: ── 開發 ──
-    H->>A: /opsx-apply
+    H->>A: /corgi-apply
     A->>D: 按需讀取 code & docs
     A->>W: 每個問題最多讀 2 個 wiki 頁面
 
@@ -142,12 +142,12 @@ Layer 3: docs/            ← 既有專案文件（不動）
 | 用字數/行數上限取代 token 計數 | Skills 沒有 runtime — AI 在寫入時自行維護 |
 | 分離 `memory/` 與 `wiki/` | 核心記憶（必定載入）vs 歸檔知識（按需取用）— 源自 MemGPT 研究 |
 | 壓縮作為 agent 自我維護 | 沒有 cron/daemon 可用 — agent 在正常寫入時自行壓縮 |
-| Lint 是獨立工具，不是閘門 | 永遠不會阻擋工作流；透過 `/opsx-lint` 定期健康檢查 |
+| Lint 是獨立工具，不是閘門 | 永遠不會阻擋工作流；透過 `/corgi-lint` 定期健康檢查 |
 | Ask 使用 early-stop 檢索 | 預算感知：每個問題最多 2 個 wiki 頁面，找到足夠資訊即停止 |
 
 ## 檔案大小上限
 
-記憶透過硬性上限自動壓縮。AI agent 在寫入時自行維護這些上限；`/opsx-lint` 事後驗證：
+記憶透過硬性上限自動壓縮。AI agent 在寫入時自行維護這些上限；`/corgi-lint` 事後驗證：
 
 | 檔案 | 目標 | 硬性上限 | 超限動作 |
 |------|------|----------|----------|
@@ -160,10 +160,10 @@ Layer 3: docs/            ← 既有專案文件（不動）
 
 ### 新專案
 
-在 `/opsx-install` 過程中自動初始化記憶（用 `--no-memory` 可跳過）：
+在 `/corgi-install` 過程中自動初始化記憶（用 `--no-memory` 可跳過）：
 
 ```text
-/opsx-install --path /path/to/project
+/corgi-install --path /path/to/project
 # Installer 會問："Initialize memory structure? (yes/no — default: yes)"
 ```
 
@@ -172,7 +172,7 @@ Layer 3: docs/            ← 既有專案文件（不動）
 為已使用 OpenSpec 的專案加入記憶：
 
 ```text
-/opsx-memory-init
+/corgi-memory-init
 ```
 
 ### 既有專案且有累積知識
@@ -180,7 +180,7 @@ Layer 3: docs/            ← 既有專案文件（不動）
 把 docs、已歸檔 changes 和 vault 頁面遷移進記憶結構：
 
 ```text
-/opsx-migrate
+/corgi-migrate
 ```
 
 Migrate skill 分 4 個階段執行：
@@ -198,19 +198,19 @@ Migrate skill 分 4 個階段執行：
 - `wiki/` 會渲染成可導航的知識圖譜
 - `memory/` 可一覽 session 狀態
 - 人類可以直接瀏覽、搜尋、甚至編輯記憶檔案
-- `/opsx-ask` 可回答在 vault 中建立的 pending .md 問題檔
+- `/corgi-ask` 可回答在 vault 中建立的 pending .md 問題檔
 
 ## 相關指令
 
 | 指令 | 用途 |
 |------|------|
-| `/opsx-memory-init` | 初始化三層記憶結構 |
-| `/opsx-migrate` | 匯入既有知識到 memory/wiki |
-| `/opsx-lint` | 驗證記憶健康度（11 項檢查） |
-| `/opsx-ask` | 使用預算感知檢索回答問題 |
+| `/corgi-memory-init` | 初始化三層記憶結構 |
+| `/corgi-migrate` | 匯入既有知識到 memory/wiki |
+| `/corgi-lint` | 驗證記憶健康度（11 項檢查） |
+| `/corgi-ask` | 使用預算感知檢索回答問題 |
 
 ## 延伸閱讀
 
-- [設計文件](../openspec/changes/openspec-llm-memory/design.md) — 架構決策、風險、權衡
-- [提案](../openspec/changes/openspec-llm-memory/proposal.md) — 動機與範圍
+- [設計文件](../openspec/changes/corgispec-llm-memory/design.md) — 架構決策、風險、權衡
+- [提案](../openspec/changes/corgispec-llm-memory/proposal.md) — 動機與範圍
 - 研究參考：MemGPT、GenericAgent、xMemory

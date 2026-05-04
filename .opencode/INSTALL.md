@@ -5,5 +5,5 @@ Use this file only as a dispatcher for project bootstrap.
 3. If the user already provided a schema, include `--schema <schema>`.
 4. Do not reconstruct the install workflow from README files.
 5. Do not run separate user-level and project-level install steps unless bootstrap explicitly fails and tells you what is missing.
-6. Read `openspec/.opsx-install-report.md` and summarize whether bootstrap succeeded, stopped, or failed.
+6. Read `openspec/.corgi-install-report.md` and summarize whether bootstrap succeeded, stopped, or failed.
 7. If bootstrap reports a legacy approval gate, ask that exact approval question and rerun after the user answers.

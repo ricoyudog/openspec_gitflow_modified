@@ -14,12 +14,12 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
 
 const MANIFEST_PATHS = [
   "openspec/install-manifest.yaml",
-  "openspec/.opsx-install.json",
+  "openspec/.corgi-install.json",
 ] as const;
 
 const LEGACY_MARKERS = [
-  ".opencode/commands/opsx-install.md",
-  ".claude/commands/opsx/install.md",
+  ".opencode/commands/corgi-install.md",
+  ".claude/commands/corgi/install.md",
 ] as const;
 
 export type BootstrapMode =
@@ -248,7 +248,7 @@ export function getManagedProjectFiles(
   const root = getAssetsRoot(assetsRoot);
   return [
     ...listFiles(resolve(root, "commands/opencode")),
-    ...listFiles(resolve(root, "commands/claude/opsx")),
+    ...listFiles(resolve(root, "commands/claude/corgi")),
     ...listFiles(resolve(root, "schemas", schema)),
   ].sort();
 }
