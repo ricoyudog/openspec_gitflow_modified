@@ -54,9 +54,9 @@ npm install
 npm run build
 ```
 
-### 2. 告訴你的 agent 執行 bootstrap
+### 2. 安裝到你的專案
 
-在你的 agent 中開啟已 clone 的 repo，並告訴它：
+複製並貼上以下提示詞到你的 LLM Agent（OpenCode、Claude Code、Cursor 等）：
 
 ```text
 Fetch and follow instructions from https://raw.githubusercontent.com/ricoyudog/openspec_gitflow_modified/main/.opencode/INSTALL.md
@@ -302,7 +302,7 @@ flowchart LR
 
 | 場景 | 指令 |
 |------|------|
-| 新專案 bootstrap | 依照 `.opencode/INSTALL.md`，讓 agent 執行 `corgispec bootstrap` |
+| 新專案 bootstrap | 將快速開始的提示詞貼入你的 agent — 它會執行 `corgispec bootstrap` |
 | 既有專案加入記憶 | `/opsx-memory-init` |
 | 遷移既有知識庫 | `/opsx-migrate` |
 | 健康檢查 | `/opsx-lint` |

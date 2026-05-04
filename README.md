@@ -54,9 +54,9 @@ npm install
 npm run build
 ```
 
-### 2. Tell your agent to run bootstrap
+### 2. Install to your project
 
-Open the cloned repo in your agent and tell it:
+Copy and paste the following prompt into your LLM Agent (OpenCode, Claude Code, Cursor, etc.):
 
 ```text
 Fetch and follow instructions from https://raw.githubusercontent.com/ricoyudog/openspec_gitflow_modified/main/.opencode/INSTALL.md
@@ -302,7 +302,7 @@ flowchart LR
 
 | Scenario | Command |
 |----------|---------|
-| New project bootstrap | Follow `.opencode/INSTALL.md` so the agent runs `corgispec bootstrap` |
+| New project bootstrap | Paste the Quick Start prompt into your agent — it runs `corgispec bootstrap` |
 | Add memory to existing project | `/opsx-memory-init` |
 | Migrate existing KB into memory | `/opsx-migrate` |
 | Health check | `/opsx-lint` |
